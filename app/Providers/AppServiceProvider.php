@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Carbon\Carbon;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
 
@@ -27,5 +28,6 @@ class AppServiceProvider extends ServiceProvider
     {
         setlocale(LC_TIME, 'tr_TR.utf8');
         Carbon::setLocale('tr');
+        Paginator::useBootstrap();
     }
 }

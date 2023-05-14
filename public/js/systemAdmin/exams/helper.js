@@ -103,7 +103,18 @@ $(() => {
                         $('#xlExample').modal('show');
                     },
                     error: function (xhr, status, error) {
-
+                        if (xhr.status == 419) {
+                            iziToast.error({
+                                title: "Hata",
+                                message:
+                                    "CSRF Doğrulama Hatası Lütfen Sayfayı Yenileyin.",
+                            });
+                        } else {
+                            iziToast.error({
+                                title: "Hata",
+                                message: "Bir Hata Oluştu: " + error,
+                            });
+                        }
                     },
                 });
             });

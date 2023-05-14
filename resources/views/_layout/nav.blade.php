@@ -324,10 +324,55 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('teacher.class.index') }}"
-                       class="{{ request()->routeIs('teacher.class*') ? 'active' : '' }}">
-                        <i data-acorn-icon="whiteboard" class="icon" data-acorn-size="18"></i>
-                        <span class="label">Sınıf</span>
+                    <a href="{{ route('teacher.announcement.index') }}"
+                       class="{{ request()->routeIs('teacher.announcement*') ? 'active' : '' }}">
+                        <i data-acorn-icon="notification" class="icon" data-acorn-size="18"></i>
+                        <span class="label">Duyurularım</span>
+                    </a>
+
+                </li>
+                <li>
+                    <a href="{{ route('teacher.mentor.index') }}"
+                       class="{{ request()->routeIs('teacher.mentor*') ? 'active' : '' }}">
+                        <i data-acorn-icon="book" class="icon" data-acorn-size="18"></i>
+                        <span class="label">Ajandam</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#students_ul" data-href="{{ route('teacher.assignment.index') }}"
+                       class="{{ request()->routeIs('teacher.assignment*') ? 'active' : '' }}">
+                        <i data-acorn-icon="quiz" class="icon" data-acorn-size="18"></i>
+                        <span class="label">Ödevlendirmelerim</span>
+                    </a>
+                    <ul id="students_ul">
+                        <li>
+                            <a href="{{ route('teacher.assignment.index') }}"
+                               class="{{ request()->routeIs('teacher.assignment.index') ? 'active' : '' }}">
+                                <span class="label">Tümünü Görüntüle</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('teacher.assignment.create') }}"
+                               class="{{ request()->routeIs('teacher.assignment.create') ? 'active' : '' }}">
+                                <span class="label">Yeni Ödev Ekle</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="{{ route('teacher.questionAnswer.index') }}"
+                       class="{{ request()->routeIs('teacher.questionAnswer*') ? 'active' : '' }}">
+                        <i data-acorn-icon="question-circle" class="icon" data-acorn-size="18"></i>
+                        <span class="label">Soru & Cevap</span>
+                    </a>
+
+                </li>
+            @elseif (auth('student')->check())
+                <li>
+                    <a href="{{ route('student.ai.index') }}"
+                       class="{{ request()->routeIs('student.ai*') ? 'active' : '' }}">
+                        <i data-acorn-icon="quiz" class="icon" data-acorn-size="18"></i>
+                        <span class="label">Sınavlar</span>
                     </a>
 
                 </li>

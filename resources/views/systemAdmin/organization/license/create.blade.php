@@ -13,9 +13,9 @@
     <script src="/js/vendor/jquery.validate/jquery.validate.min.js"></script>
     <script src="/js/vendor/jquery.validate/additional-methods.min.js"></script>
     <script src="/js/vendor/imask.js"></script>
+    <script src="/js/vendor/datepicker/bootstrap-datepicker.min.js"></script>
 @endsection
 @section('js_page')
-    <script src="/js/vendor/datepicker/bootstrap-datepicker.min.js"></script>
     <script src="/js/systemAdmin/organizations/license.create.js"></script>
 @endsection
 @section('content')

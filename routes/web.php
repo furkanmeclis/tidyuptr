@@ -3,23 +3,28 @@
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Organization\OrganizationAuthController;
 use App\Http\Controllers\Organization\OrganizationExamController;
-use App\Http\Controllers\Teacher\TeacherClassController;
-use App\Http\Controllers\Teacher\TeacherExamController;
-use App\Http\Controllers\Teacher\TeacherOrganizationController;
-use App\Http\Controllers\Teacher\TeacherStudentController;
-use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Organization\OrganizationStudentController;
+use App\Http\Controllers\Organization\OrganizationTeacherController;
+use App\Http\Controllers\Student\StudentAuthController;
 use App\Http\Controllers\SystemAdmin\SystemAdminAuthController;
+use App\Http\Controllers\SystemAdmin\SystemAdminExamController;
+use App\Http\Controllers\SystemAdmin\SystemAdminLessonController;
 use App\Http\Controllers\SystemAdmin\SystemAdminLicenseController;
 use App\Http\Controllers\SystemAdmin\SystemAdminOrganizationController;
-use App\Http\Controllers\SystemAdmin\SystemAdminTeacherController;
-use App\Http\Controllers\SystemAdmin\SystemAdminLessonController;
 use App\Http\Controllers\SystemAdmin\SystemAdminStudentController;
-use App\Http\Controllers\SystemAdmin\SystemAdminExamController;
-use \App\Http\Controllers\Organization\OrganizationTeacherController;
-use \App\Http\Controllers\Organization\OrganizationStudentController;
+use App\Http\Controllers\SystemAdmin\SystemAdminTeacherController;
+use App\Http\Controllers\Teacher\TeacherAnnouncementController;
+use App\Http\Controllers\Teacher\TeacherAssignmentController;
+use App\Http\Controllers\Teacher\TeacherAuthController;
+use App\Http\Controllers\Teacher\TeacherExamController;
+use App\Http\Controllers\Teacher\TeacherMentorFollowUpController;
+use App\Http\Controllers\Teacher\TeacherOrganizationController;
+use App\Http\Controllers\Teacher\TeacherQuestionAnswerController;
+use App\Http\Controllers\Teacher\TeacherStudentController;
 use App\Services\OpenAIService;
-use \App\Http\Controllers\Teacher\TeacherAuthController;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -55,12 +60,6 @@ Route::get('/chat-gpt',function(){
 Route::prefix('system-admin')->name('systemAdmin.')->group(function () {
     Route::get('login', [SystemAdminAuthController::class, 'loginView'])->name('login');
     Route::post('login', [SystemAdminAuthController::class, 'loginStore']);
-    /*
-        Route::get('forgot-password', [SystemAdminResetPasswordController::class,'showLinkRequestForm'])->name('forgotPasswordForm');
-        Route::post('forgot-password', [SystemAdminResetPasswordController::class,'sendResetLinkEmail'])->name('sendResetLink');
-        Route::get('reset-password/{token}', [SystemAdminResetPasswordController::class,'showResetForm'])->name('resetPasswordForm');
-        Route::post('reset-password', [SystemAdminResetPasswordController::class,'reset'])->name('resetPasswordUpdate');
-    */
     Route::middleware('auth.admin')->group(function () {
         Route::view('/', 'systemAdmin/index')->name('index');
         Route::get('dersprogram', [HomeController::class, 'index']);
@@ -220,6 +219,7 @@ Route::prefix('organization')->name('organizationAdmin.')->group(function () {
 |--------------------------------------------------------------------------
 |
 */
+
 Route::prefix('teacher')->name('teacher.')->group(function () {
     Route::get('login', [TeacherAuthController::class, 'loginView'])->name('login');
     Route::post('login', [TeacherAuthController::class, 'loginStore']);
@@ -242,12 +242,32 @@ Route::prefix('teacher')->name('teacher.')->group(function () {
             Route::get('/', [TeacherExamController::class, 'index'])->name('index');
             Route::post('{exam}', [TeacherExamController::class, 'show'])->name('show');
         });
-        //Sınıf Yönetim Linkleri
-        Route::prefix('class')->name('class.')->group(function () {
-            Route::get('/', [TeacherClassController::class, 'index'])->name('index');
-            Route::post('create', [TeacherClassController::class, 'store'])->name('store');
-            Route::get('{class}/update', [TeacherClassController::class, 'update'])->name('update');
-            Route::delete('{class}/destroy', [TeacherClassController::class, 'destroy'])->name('destroy');
+        //Duyuru Yönetim Linkleri
+        Route::prefix('announcements')->name('announcement.')->group(function () {
+            Route::get('/', [TeacherAnnouncementController::class, 'index'])->name('index');
+            Route::post('create', [TeacherAnnouncementController::class, 'store'])->name('store');
+            Route::delete('{class}/destroy', [TeacherAnnouncementController::class, 'destroy'])->name('destroy');
+        });
+        //Ajanda Yönetim Linkleri
+        Route::prefix('mentor-follow-up')->name('mentor.')->group(function () {
+            Route::get('/', [TeacherMentorFollowUpController::class, 'index'])->name('index');
+            Route::post('{id}/remind-student', [TeacherMentorFollowUpController::class, 'remindStudent'])->name('remindStudent');
+        });
+        //Soru Cevap Yönetim Linkleri
+        Route::prefix('question-answer')->name('questionAnswer.')->group(function () {
+            Route::get('/{id?}', [TeacherQuestionAnswerController::class, 'index'])->name('index');
+            Route::post('{id}/answer', [TeacherQuestionAnswerController::class, 'answer'])->name('answer');
+            Route::get('{id}/download', [TeacherQuestionAnswerController::class, 'download'])->name('download');
+        });
+        //Ödevlendirme Yönetim Linkleri
+        Route::prefix('assignment')->name('assignment.')->group(function () {
+            Route::get('/', [TeacherAssignmentController::class, 'index'])->name('index');
+            Route::get('create', [TeacherAssignmentController::class, 'create'])->name('create');
+            Route::post('create', [TeacherAssignmentController::class, 'store'])->name('store');
+            Route::get('{assignment}', [TeacherAssignmentController::class, 'show'])->name('show');
+            Route::get('{assignment}/response/{response}', [TeacherAssignmentController::class, 'showResponse'])->name('showResponse');
+            Route::post('get-students', [TeacherAssignmentController::class, 'getStudents'])->name('getStudents');
+            Route::delete('{assignment}', [TeacherAssignmentController::class, 'destroy'])->name('destroy');
         });
         Route::get('logout', [TeacherAuthController::class, 'logout']);
     });
@@ -257,4 +277,62 @@ Route::prefix('teacher')->name('teacher.')->group(function () {
 | Eğitim Koçluğu Öğretmen Routeları Bitiş
 |--------------------------------------------------------------------------
 |
+|
+|--------------------------------------------------------------------------
+| Eğitim Koçluğu Öğretmen Routeları Başlangıç
+|--------------------------------------------------------------------------
+|
 */
+
+Route::prefix('student')->name('student.')->group(function () {
+    Route::get('login', [StudentAuthController::class, 'loginView'])->name('login');
+    Route::post('login', [StudentAuthController::class, 'loginStore']);
+    Route::middleware('auth.student')->group(function () {
+        Route::get('/', [SystemAdminOrganizationController::class, 'index'])->name('index');
+        Route::prefix('organization')->name('organization.')->group(function () {
+            Route::get('/', [TeacherOrganizationController::class, 'index'])->name('index');
+            Route::get('{organization}/students', [TeacherOrganizationController::class, 'showStudents'])->name('student');
+            Route::get('{organization}/destroy', [TeacherOrganizationController::class, 'destroy'])->name('destroy');
+        });
+        //Öğrenci Yönetim Linkleri
+        Route::prefix('students')->name('student.')->group(function () {
+            Route::get('/', [TeacherStudentController::class, 'index'])->name('index');
+            Route::get('{student}', [TeacherStudentController::class, 'show'])->name('show');
+            Route::get('{student}/exams', [TeacherStudentController::class, 'exams'])->name('exam');
+            Route::delete('{student}', [TeacherStudentController::class, 'destroy'])->name('destroy');
+        });
+        //Sınav Yönetim Linkleri
+        Route::prefix('exam')->name('exam.')->group(function () {
+            Route::get('/', [TeacherExamController::class, 'index'])->name('index');
+            Route::post('{exam}', [TeacherExamController::class, 'show'])->name('show');
+        });
+        //Duyuru Yönetim Linkleri
+        Route::prefix('announcements')->name('announcement.')->group(function () {
+            Route::get('/', [TeacherAnnouncementController::class, 'index'])->name('index');
+            Route::post('create', [TeacherAnnouncementController::class, 'store'])->name('store');
+            Route::delete('{class}/destroy', [TeacherAnnouncementController::class, 'destroy'])->name('destroy');
+        });
+        //Ajanda Yönetim Linkleri
+        Route::prefix('mentor-follow-up')->name('mentor.')->group(function () {
+            Route::get('/', [TeacherMentorFollowUpController::class, 'index'])->name('index');
+            Route::post('{id}/remind-student', [TeacherMentorFollowUpController::class, 'remindStudent'])->name('remindStudent');
+        });
+        //Soru Cevap Yönetim Linkleri
+        Route::prefix('question-answer')->name('questionAnswer.')->group(function () {
+            Route::get('/{id?}', [TeacherQuestionAnswerController::class, 'index'])->name('index');
+            Route::post('{id}/answer', [TeacherQuestionAnswerController::class, 'answer'])->name('answer');
+            Route::get('{id}/download', [TeacherQuestionAnswerController::class, 'download'])->name('download');
+        });
+        //Ödevlendirme Yönetim Linkleri
+        Route::prefix('assignment')->name('assignment.')->group(function () {
+            Route::get('/', [TeacherAssignmentController::class, 'index'])->name('index');
+            Route::get('create', [TeacherAssignmentController::class, 'create'])->name('create');
+            Route::post('create', [TeacherAssignmentController::class, 'store'])->name('store');
+            Route::get('{assignment}', [TeacherAssignmentController::class, 'show'])->name('show');
+            Route::get('{assignment}/response/{response}', [TeacherAssignmentController::class, 'showResponse'])->name('showResponse');
+            Route::post('get-students', [TeacherAssignmentController::class, 'getStudents'])->name('getStudents');
+            Route::delete('{assignment}', [TeacherAssignmentController::class, 'destroy'])->name('destroy');
+        });
+        Route::get('logout', [TeacherAuthController::class, 'logout']);
+    });
+});

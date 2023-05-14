@@ -50,7 +50,7 @@ return [
             'provider' => 'users',
             'hash' => false,
         ],
-        'students' => [
+        'student' => [
             'driver' => 'session',
             'provider' => 'students',
         ],

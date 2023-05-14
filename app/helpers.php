@@ -16,18 +16,20 @@ if(!function_exists('getActiveUser')) {
     }
 }
 if(!function_exists('getAvatarUrl')) {
-    function getAvatarUrl()
+    function getAvatarUrl($name = "")
     {
-        $name = "";
-        if (Auth::guard('admin')->check()) {
-            $name= Auth::guard('admin')->user()->name;
-        } elseif (Auth::guard('organization')->check()) {
-            $name= Auth::guard('organization')->user()->name;
-        } elseif (Auth::guard('teacher')->check()) {
-            $name= Auth::guard('teacher')->user()->name;
-        } elseif (Auth::guard('student')->check()) {
-            $name= Auth::guard('student')->user()->name;
+        if($name == "") {
+            if (Auth::guard('admin')->check()) {
+                $name = Auth::guard('admin')->user()->name;
+            } elseif (Auth::guard('organization')->check()) {
+                $name = Auth::guard('organization')->user()->name;
+            } elseif (Auth::guard('teacher')->check()) {
+                $name = Auth::guard('teacher')->user()->name;
+            } elseif (Auth::guard('student')->check()) {
+                $name = Auth::guard('student')->user()->name;
+            }
         }
         return "https://ui-avatars.com/api/?name=" . urlEncode($name) . "&background=random&size=256";
     }
 }
+
