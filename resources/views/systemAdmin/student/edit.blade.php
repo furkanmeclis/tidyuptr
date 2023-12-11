@@ -45,23 +45,33 @@
                                 <div class="card mb-5">
                                     <div class="card-body">
                                         <form id="updateStudent"
-                                            action="{{ route('systemAdmin.student.update', $student->id) }}"
-                                            method="POST" class="tooltip-end-bottom" novalidate>
+                                              action="{{ route('systemAdmin.student.update', $student->id) }}"
+                                              method="POST" class="tooltip-end-bottom" novalidate>
                                             <div class="mb-3 filled">
                                                 <i data-acorn-icon="school"></i>
                                                 <input class="form-control" placeholder="Kurum Adı"
-                                                    value="{{ $student->name }}" name="name" />
+                                                       value="{{ $student->name }}" name="name" />
+                                            </div>
+                                            <div class="mb-3 filled">
+                                                <i data-acorn-icon="content"></i>
+                                                <input class="form-control" value="{{ $student->identity_number }}" type="number" placeholder="Kimlik Numarası"
+                                                       name="identity_number" />
+                                            </div>
+                                            <div class="mb-3 filled">
+                                                <i data-acorn-icon="medal"></i>
+                                                <input class="form-control" value="{{ $student->grade }}" type="number" placeholder="Sınıfı"
+                                                       name="grade" />
                                             </div>
                                             <div class="mb-3 filled">
                                                 <i data-acorn-icon="at-sign"></i>
                                                 <input class="form-control" placeholder="Email Adresi"
-                                                    value="{{ $student->email }}" name="email" />
+                                                       value="{{ $student->email }}" name="email" />
                                             </div>
                                             <div class="mb-3 filled">
                                                 <i data-acorn-icon="phone"></i>
                                                 <input class="form-control" id="phoneNumber"
-                                                    value="{{ $student->phone }}" placeholder="Telefon Numarası"
-                                                    name="phone" />
+                                                       value="{{ $student->phone }}" placeholder="Telefon Numarası"
+                                                       name="phone" />
                                             </div>
                                             <div class="mb-3 filled">
                                                 <textarea placeholder="Adres" name="address" class="form-control" rows="3">{{ $student->address }}</textarea>
@@ -77,17 +87,17 @@
                                 <div class="card mb-5">
                                     <div class="card-body">
                                         <form id="updateStudentPassword"
-                                            action="{{ route('systemAdmin.student.updatePassword', $student->id) }}"
-                                            method="PUT" class="tooltip-end-bottom" novalidate>
+                                              action="{{ route('systemAdmin.student.updatePassword', $student->id) }}"
+                                              method="PUT" class="tooltip-end-bottom" novalidate>
                                             <div class="mb-3 filled">
                                                 <i data-acorn-icon="lock-off"></i>
                                                 <input class="form-control" id="password" type="password"
-                                                    placeholder="Yeni Şifre" name="password" />
+                                                       placeholder="Yeni Şifre" name="password" />
                                             </div>
                                             <div class="mb-3 filled">
                                                 <i data-acorn-icon="lock-off"></i>
                                                 <input class="form-control" type="password"
-                                                    placeholder="Yeni Şifreyi Onaylayın" name="confirmPassword" />
+                                                       placeholder="Yeni Şifreyi Onaylayın" name="confirmPassword" />
                                             </div>
                                             <button class="btn btn-primary" type="submit">Şifreyi Güncelle</button>
                                         </form>
@@ -116,21 +126,21 @@
 
 
                                     </div>
-                                <div class="data-table-responsive-wrapper">
-                                    <table id="datatableRows" class="data-table"
-                                           data-ajax-url="{{ route('systemAdmin.organization.getOrganizations',$student->organization_id) }}">
-                                        <thead>
-                                        <tr>
-                                            <th class="text-muted text-uppercase"><span>#Id</span> </th>
-                                            <th class="text-muted text-uppercase">Kurum Adı</th>
-                                            <th class="empty">&nbsp;</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
+                                    <div class="data-table-responsive-wrapper">
+                                        <table id="datatableRows" class="data-table"
+                                               data-ajax-url="{{ route('systemAdmin.organization.getOrganizations',$student->organization_id) }}">
+                                            <thead>
+                                            <tr>
+                                                <th class="text-muted text-uppercase"><span>#Id</span> </th>
+                                                <th class="text-muted text-uppercase">Kurum Adı</th>
+                                                <th class="empty">&nbsp;</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
 
-                                        </tbody>
-                                    </table>
-                                </div>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                                 <div class="text-center mt-3">
                                     <form action="{{ route('systemAdmin.student.updateOrganization',$student->id) }}"
@@ -184,9 +194,9 @@
                                 <div class="text-center mt-3">
                                     <form id="updateTeacher" action="{{ route('systemAdmin.student.updateTeacher',$student->id) }}">
                                         <input type="hidden" name="teacher_id">
-                                    <button class="btn btn-primary" type="submit">
-                                        Kaydet
-                                    </button></form>
+                                        <button class="btn btn-primary" type="submit">
+                                            Kaydet
+                                        </button></form>
                                 </div>
                             </div>
                         </div>

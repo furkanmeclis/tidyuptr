@@ -46,7 +46,7 @@ class Teacher extends Authenticatable
 
     public function getQuota(){
          $students = StudentTeacher::where('teacher_id',$this->id)->count();
-         return $this->max_students - $students;
+            return ($this->max_students - $students < 0) ? 0 : $this->max_students - $students;
     }
     public function getStudentsCount(){
         $students = StudentTeacher::where('teacher_id',$this->id)->count();

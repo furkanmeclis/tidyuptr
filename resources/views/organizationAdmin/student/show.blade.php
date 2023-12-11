@@ -109,7 +109,7 @@
                                 <div class="col-6 col-xl-6 sh-19">
                                     <div class="card h-100 hover-scale-up">
                                         <a class="card-body text-center"
-                                            href="{{ route('organizationAdmin.student.exam',$student->id) }}">
+                                            href="{{ route('organizationAdmin.student.exam.index',$student->id) }}">
                                             <i data-acorn-icon="quiz" class="text-primary"></i>
                                             <p class="heading mt-3 text-body">Sınavlar</p>
                                             <div class="text-extra-small fw-medium text-muted">Öğrencinin yapmış olduğu sınavlar
@@ -135,6 +135,12 @@
                             </div>
                         </div>
                     </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        @component('components.chart',["url"=> route('organizationAdmin.getStatsStudent',$student->id)])
+                        @endcomponent
+                    </div>
+                </div>
                     <!-- Content End -->
                 @else
                     <h2 class="small-title h1 mb-5">Kayıt Bulunamadı</h2>

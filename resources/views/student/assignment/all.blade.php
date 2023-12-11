@@ -3,8 +3,8 @@
     $title = 'Ödevler';
     $description = '';
     $breadcrumbs = [
-        route('teacher.index') => 'Anasayfa',
-        route('teacher.assignment.index') => 'Ödevler',
+        route('student.index') => 'Anasayfa',
+        route('student.assignment.index') => 'Ödevler',
     ];
 @endphp
 @extends('layout', ['html_tag_data' => $html_tag_data, 'title' => $title, 'description' => $description])
@@ -64,12 +64,6 @@
 
                         <div class="col-sm-12 col-md-7 col-lg-9 col-xxl-10 text-end mb-1">
                             <div class="d-inline-block">
-                                <a href="{{ route('teacher.assignment.create') }}"
-                                   class="btn btn-icon btn-icon-only btn-foreground-alternate shadow "
-                                   data-bs-toggle="tooltip" data-bs-placement="top" data-bs-delay="0"
-                                   title="Yeni Ödev Ekle" type="button">
-                                    <i data-acorn-icon="plus"></i>
-                                </a>
                                 <button class="btn btn-icon btn-icon-only btn-foreground-alternate shadow datatable-print"
                                         data-datatable="#datatableRows" data-bs-toggle="tooltip" data-bs-placement="top"
                                         data-bs-delay="0" title="Yazdır" type="button">
@@ -119,9 +113,6 @@
                             <thead>
                             <tr>
                                 <th class="text-muted text-uppercase">Ödev Başlığı</th>
-                                <th class="text-muted text-uppercase">Ödevlendirilen Öğrenci Sayısı</th>
-                                <th class="text-muted text-uppercase">Ödevi Gönderen Öğrenci Sayısı</th>
-
                                 <th class="text-muted text-uppercase">Dosya</th>
                                 <th class="text-muted text-uppercase">Ödev Bitiş Tarihi</th>
                                  <th class="empty">&nbsp;</th>
@@ -129,24 +120,15 @@
                             </thead>
                             <tbody>
                             @foreach ($assignments as $assignment)
-                                @php($response_count = \App\Models\AssignmentResponses::where('assignment_id',$assignment->id)->count())
                                 <tr>
                                     <td>{{ $assignment->title }}</td>
-                                    <td>{{ \App\Models\AssignmentStudents::where('assignment_id',$assignment->id)->count() }} Öğrenci</td>
-                                    <td>{{ $response_count }} Öğrenci</td>
-
                                     <td>{!! $assignment->file ? "<a target='_blank' title='".$assignment->getFileName()."' href='".$assignment->getFileUrl()."'>".\Illuminate\Support\Str::limit($assignment->getFileName(),20,'...')."</a>":"Dosya Yok" !!}</td>
                                     <td>{{$assignment->dueDate()}}</td>
-                                    <td><a href="{{ route('teacher.assignment.show', $assignment->id) }}"
+                                    <td><a href="{{ route('student.assignment.show', $assignment->id) }}"
                                            class="btn mb-1 btn-sm btn-icon btn-icon-only btn-success shadow "
                                            data-bs-toggle="tooltip" data-bs-placement="left" data-bs-delay="0"
                                            title="Görüntüle" type="button">
                                             <i data-acorn-icon="eye"></i>
-                                        </a> <a href="{{ route('teacher.assignment.destroy', $assignment->id) }}"
-                                                class="btn  mb-1 btn-sm btn-icon btn-icon-only btn-danger shadow delete-assignment-btn"
-                                                data-bs-toggle="tooltip" data-bs-placement="right" data-bs-delay="0"
-                                                title="Sil" type="button">
-                                            <i data-acorn-icon="bin"></i>
                                         </a>
                                     </td>
                                 </tr>

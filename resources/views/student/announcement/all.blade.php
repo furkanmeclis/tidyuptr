@@ -16,7 +16,7 @@
 @endsection
 
 @section('js_page')
-    <script src="/js/teacher/announcement/all.js"></script>
+    <script src="/js/student/announcement/all.js"></script>
 @endsection
 
 @section('content')
@@ -81,44 +81,13 @@
                                     @endif
                                     <div class=" text-end">
                                         <time datetime="{{ $content->created_at }}" class="text-small text-muted" title="Oluşturulma Tarihi">{{ $content->created_at->format('d.m.Y H:i') }}</time>
-                                        <div class="dropdown">
-                                            <a class="dropdown-toggle mb-1" href="#" role="button" id="dropdownMenuLink-{{$content->id}}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                Detaylar
-                                            </a>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink-{{$content->id}}" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 21px);" data-popper-placement="bottom-start">
-                                                <a class="dropdown-item text-danger delete-content-btn" href="{{route('teacher.announcement.destroy',$content->id)}}">Sil</a>
-                                            </div>
-                                        </div>
+
                                     </div>
                                 </div>
                             @endforeach
                         @endif
                     </div>
-                    <div class="card-footer">
-                        <div class="row">
-                            <div class="col-md-10">
-                                <div class="filled custom-control-container editor-container">
-                                    <div class="html-editor sh-20" id="quillEditorFilled"></div>
-                                    <i data-acorn-icon="message"></i>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <form id="createMessage" action="{{route('teacher.announcement.store')}}">
-                                    <input type="file" name="file" class="d-none" id="fileInput">
-                                    <button class="btn btn-warning m-3 btn-block" id="addFile" type="button">Dosya Ekle</button>
-                                    <button class="btn btn-primary mx-3 btn-block" type="submit">Gönder</button>
-                                    <div id="fileSelected" style="display: none">
-                                        <hr>
-                                        <p id="fileName">Dosya Seçilmedi</p>
-                                        <button class="btn mb-1 btn-sm btn-icon btn-icon-only btn-danger shadow" type="button" id="removeFile">
-                                            <i data-acorn-icon="bin"></i>
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
 
-                    </div>
                 </div>
             </div>
         </div>

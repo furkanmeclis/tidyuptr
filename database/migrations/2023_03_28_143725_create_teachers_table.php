@@ -18,6 +18,8 @@ class CreateTeachersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->integer('max_students')->nullable();
+            $table->string('live_lesson_url')->nullable();
+            $table->boolean('is_mentor')->default(false);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('phone')->nullable();

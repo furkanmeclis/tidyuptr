@@ -14,61 +14,44 @@ class StudentMentorFollowUpController extends \Illuminate\Routing\Controller
 {
     public function index()
     {
-        $getStudentIds = StudentTeacher::where('teacher_id', auth('teacher')->user()->id)->get()->map(function ($record) {
-            return $record->student_id;
-        });
-        $students = Student::whereIn('id', $getStudentIds)->get()->map(function ($record) {
-            return [
-                'id' => $record->id,
-                'name' => $record->name,
-            ];
-        })->toArray();
 
-        $mentorFollowUp = MentorFollowUp::where('teacher_id', auth('teacher')->user()->id)->whereIn('student_id',$getStudentIds)->get();
+        $student = auth('student')->user();
+
+        $mentorFollowUp = MentorFollowUp::where('student_id', auth('student')->user()->id)->get();
         $calendarData = [];
         for ($i = 0; $i < 30; $i++) {
-            $calendarData[Carbon::today()->subDays($i)->format("Y-m-d")] = [];
+            $calendarData[Carbon::today()->subDays($i)->format("Y-m-d")] = [
+                "id" => $student['id'],
+                "name" => $student['name'],
+                "url" => "#",
+                "send" => false,
+            ];
         }
         foreach ($mentorFollowUp as $item) {
-            $studentName = $this->getStudentName($item->student_id, $students);
-            $calendarData[$item->getDate('-')][] = [
+            $calendarData[$item->getDate('-')] = [
                 "id" => $item->student_id,
-                "name" => $studentName,
+                "name" => $student->name,
                 "url" => $item->getFileUrl(),
                 "send" => true
             ];
         }
-        foreach($calendarData as $key => $dateOnly){
-            foreach($students as $student){
-                if(!in_array($student['id'],array_column($dateOnly,'id'))){
-                    $calendarData[$key][] = [
-                        "id" => $student['id'],
-                        "name" => $student['name'],
-                        "url" => "#",
-                        "send" => false,
-                    ];
-                }
-            }
-        }
         $printData = [];
         $i=0;
-        foreach ($calendarData as $key => $item) {
-            foreach ($item as $index => $value) {
+        foreach ($calendarData as $key => $value) {
                 $printData[] = [
                     "id" => $i,
                     "send"=> $value['send'],
                     "student_id" => $value['id'],
-                    "title" => $value['name'],
+                    "title" => $value['send'] ? "Gönderildi" : "Gönderilmedi",
                     "start" => $key,
                     "end" => $key,
-                    "url" => $value['send'] ? $value['url'] : route('teacher.mentor.remindStudent',$value['id']),
+                    "url" => $value['send'] ? $value['url'] : "#",
                     "color" => $value['send'] ? "#28a745" : "#dc3545",
                     "className" => $value['send'] ? "" : "unsended-agenta",
                 ];
                 $i++;
-            }
         }
-        return view('teacher.mentor-follow-up.calendar')->with('data', $printData);
+        return view('student.mentor-follow-up.calendar')->with('data', $printData);
     }
     protected function getStudentName($id, $data)
     {
@@ -79,32 +62,36 @@ class StudentMentorFollowUpController extends \Illuminate\Routing\Controller
         }
         return null;
     }
-    public function remindStudent(Request $request,$id)
-    {
-        $student = Student::find($id);
-        if(!$student){
-            return response()->json(['status' => false, 'message' => 'Kayıt Bulunamadı']);
-        }
-        if(StudentTeacher::where('student_id',$id)->where('teacher_id',auth('teacher')->user()->id)->count() == 0){
-            return response()->json(['status' => false, 'message' => 'Yalnızca Kendi Öğrencinize Hatırlatmada Bulunabilirsiniz.']);
-        }
-        $today = Carbon::today();
-        $record = RemindMentorFollowUp::where('student_id',$id)
-            ->where('teacher_id',auth('teacher')->user()->id)
-            ->whereRaw('DATE(created_at) = ?', [$today])->count();
-        if($record > 0){
-            return response()->json(['status' => false, 'message' => 'Bugün Zaten Hatırlatma Yaptınız.']);
-        }else{
+    public function store(Request $request){
+        if ($request->hasFile('file')) {
             try{
-                Mail::to(['furkanmeclis@icloud.com'])->send(new RemindAgenta($student,auth('teacher')->user()));
-                RemindMentorFollowUp::create([
-                    'student_id' => $id,
-                    'teacher_id' => auth('teacher')->user()->id,
-                ]);
-                return response()->json(['status' => true, 'message' => 'Hatırlatma Maili Gönderildi.']);
+                if($teacher = StudentTeacher::where('student_id',auth('student')->user()->id)->first()){
+                    if(MentorFollowUp::where('student_id',auth('student')->user()->id)->whereDate(
+                        'created_at', Carbon::today()
+                    )->first()){
+                        return response()->json(['status' => false, 'message' => 'Bugün Zaten Gönderildi']);
+                    }
+                    $file = $request->file('file');
+                    $path = $file->store('uploads');
+                    $teacher_id = $teacher->teacher_id;
+                    $mentorFollowUp = new MentorFollowUp();
+                    $mentorFollowUp->teacher_id = $teacher_id;
+                    $mentorFollowUp->student_id = auth('student')->user()->id;
+                    $mentorFollowUp->file = $path;
+                    if($mentorFollowUp->save()){
+                        return response()->json(['status' => true, 'message' => 'Dosya Yüklendi',"url" => route('student.mentor.index')]);
+                    }else{
+                        return response()->json(['status' => false, 'message' => 'Dosya Yüklenemedi']);
+                    }
+                }else{
+                    return response()->json(['status' => false, 'message' => 'Öğretmen Bulunamadı']);
+                }
+
             }catch(\Exception $e){
                 return response()->json(['status' => false, 'message' => $e->getMessage()]);
             }
+        }else{
+            return response()->json(['status' => false, 'message' => 'Dosya Seçilmeli']);
         }
     }
 }

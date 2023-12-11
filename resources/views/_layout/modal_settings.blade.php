@@ -1,16 +1,24 @@
 <!-- Theme Settings Modal Start -->
-<div class="modal fade modal-right scroll-out-negative" id="settings" data-bs-backdrop="true" tabindex="-1" role="dialog" aria-labelledby="settings" aria-hidden="true">
+<div
+    class="modal fade modal-right scroll-out-negative"
+    id="settings"
+    data-bs-backdrop="true"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="settings"
+    aria-hidden="true"
+>
     <div class="modal-dialog modal-dialog-scrollable full" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Theme Settings</h5>
+                <h5 class="modal-title">Tema Ayarları</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
             <div class="modal-body">
                 <div class="scroll-track-visible">
                     <div class="mb-5" id="color">
-                        <label class="mb-3 d-inline-block form-label">Color</label>
+                        <label class="mb-3 d-inline-block form-label">Renk</label>
                         <div class="row d-flex g-3 justify-content-between flex-wrap mb-3">
                             <a href="#" class="flex-grow-1 w-50 option col" data-value="light-blue" data-parent="color">
                                 <div class="card rounded-md p-3 mb-1 no-shadow color">
@@ -157,7 +165,7 @@
                         </div>
                     </div>
                     <div class="mb-5" id="navcolor">
-                        <label class="mb-3 d-inline-block form-label">Override Nav Palette</label>
+                        <label class="mb-3 d-inline-block form-label">Menü Teması</label>
                         <div class="row d-flex g-3 justify-content-between flex-wrap">
                             <a href="#" class="flex-grow-1 w-33 option col" data-value="default" data-parent="navcolor">
                                 <div class="card rounded-md p-3 mb-1 no-shadow">
@@ -190,7 +198,7 @@
                     </div>
 
                     <div class="mb-5" id="placement">
-                        <label class="mb-3 d-inline-block form-label">Menu Placement</label>
+                        <label class="mb-3 d-inline-block form-label">Menü Yerleşimi</label>
                         <div class="row d-flex g-3 justify-content-between flex-wrap">
                             <a href="#" class="flex-grow-1 w-50 option col" data-value="horizontal" data-parent="placement">
                                 <div class="card rounded-md p-3 mb-1 no-shadow">
@@ -198,7 +206,7 @@
                                     <div class="figure figure-secondary bottom"></div>
                                 </div>
                                 <div class="text-muted text-part">
-                                    <span class="text-extra-small align-middle">HORIZONTAL</span>
+                                    <span class="text-extra-small align-middle">Dikey</span>
                                 </div>
                             </a>
                             <a href="#" class="flex-grow-1 w-50 option col" data-value="vertical" data-parent="placement">
@@ -207,14 +215,14 @@
                                     <div class="figure figure-secondary right"></div>
                                 </div>
                                 <div class="text-muted text-part">
-                                    <span class="text-extra-small align-middle">VERTICAL</span>
+                                    <span class="text-extra-small align-middle">Yatay</span>
                                 </div>
                             </a>
                         </div>
                     </div>
 
                     <div class="mb-5" id="behaviour">
-                        <label class="mb-3 d-inline-block form-label">Menu Behaviour</label>
+                        <label class="mb-3 d-inline-block form-label">Menü</label>
                         <div class="row d-flex g-3 justify-content-between flex-wrap">
                             <a href="#" class="flex-grow-1 w-50 option col" data-value="pinned" data-parent="behaviour">
                                 <div class="card rounded-md p-3 mb-1 no-shadow">
@@ -222,7 +230,7 @@
                                     <div class="figure figure-secondary right small"></div>
                                 </div>
                                 <div class="text-muted text-part">
-                                    <span class="text-extra-small align-middle">PINNED</span>
+                                    <span class="text-extra-small align-middle">SABİT</span>
                                 </div>
                             </a>
                             <a href="#" class="flex-grow-1 w-50 option col" data-value="unpinned" data-parent="behaviour">
@@ -231,14 +239,14 @@
                                     <div class="figure figure-secondary right"></div>
                                 </div>
                                 <div class="text-muted text-part">
-                                    <span class="text-extra-small align-middle">UNPINNED</span>
+                                    <span class="text-extra-small align-middle">SABİT DEĞİL</span>
                                 </div>
                             </a>
                         </div>
                     </div>
 
                     <div class="mb-5" id="layout">
-                        <label class="mb-3 d-inline-block form-label">Layout</label>
+                        <label class="mb-3 d-inline-block form-label">Yerleşim</label>
                         <div class="row d-flex g-3 justify-content-between flex-wrap">
                             <a href="#" class="flex-grow-1 w-50 option col" data-value="fluid" data-parent="layout">
                                 <div class="card rounded-md p-3 mb-1 no-shadow">
@@ -246,7 +254,7 @@
                                     <div class="figure figure-secondary bottom"></div>
                                 </div>
                                 <div class="text-muted text-part">
-                                    <span class="text-extra-small align-middle">FLUID</span>
+                                    <span class="text-extra-small align-middle">SERBEST</span>
                                 </div>
                             </a>
                             <a href="#" class="flex-grow-1 w-50 option col" data-value="boxed" data-parent="layout">
@@ -255,14 +263,14 @@
                                     <div class="figure figure-secondary bottom small"></div>
                                 </div>
                                 <div class="text-muted text-part">
-                                    <span class="text-extra-small align-middle">BOXED</span>
+                                    <span class="text-extra-small align-middle">SINIRLANDIRILMIŞ</span>
                                 </div>
                             </a>
                         </div>
                     </div>
 
                     <div class="mb-5" id="radius">
-                        <label class="mb-3 d-inline-block form-label">Radius</label>
+                        <label class="mb-3 d-inline-block form-label">Kenar Yumuşatma</label>
                         <div class="row d-flex g-3 justify-content-between flex-wrap">
                             <a href="#" class="flex-grow-1 w-33 option col" data-value="rounded" data-parent="radius">
                                 <div class="card rounded-md radius-rounded p-3 mb-1 no-shadow">
@@ -270,7 +278,7 @@
                                     <div class="figure figure-secondary bottom"></div>
                                 </div>
                                 <div class="text-muted text-part">
-                                    <span class="text-extra-small align-middle">ROUNDED</span>
+                                    <span class="text-extra-small align-middle">YUMUŞATILMIŞ</span>
                                 </div>
                             </a>
                             <a href="#" class="flex-grow-1 w-33 option col" data-value="standard" data-parent="radius">
@@ -288,7 +296,7 @@
                                     <div class="figure figure-secondary bottom"></div>
                                 </div>
                                 <div class="text-muted text-part">
-                                    <span class="text-extra-small align-middle">FLAT</span>
+                                    <span class="text-extra-small align-middle">YOK</span>
                                 </div>
                             </a>
                         </div>
@@ -300,155 +308,13 @@
 </div>
 <!-- Theme Settings Modal End -->
 
-<!-- Niches Modal Start -->
-<div class="modal fade modal-right scroll-out-negative" id="niches" data-bs-backdrop="true" tabindex="-1" role="dialog" aria-labelledby="niches" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable full" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Niches</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-
-            <div class="modal-body">
-                <div class="scroll-track-visible">
-                    <div class="mb-5">
-                        <label class="mb-2 d-inline-block form-label">Classic Dashboard</label>
-                        <div class="hover-reveal-buttons position-relative hover-reveal cursor-default">
-                            <div class="position-relative mb-3 mb-lg-5 rounded-sm">
-                                <img src="https://acorn.coloredstrategies.com/img/page/classic-dashboard.webp" class="img-fluid rounded-sm lower-opacity border border-separator-light" alt="card image" />
-                                <div class="position-absolute reveal-content rounded-sm absolute-center-vertical text-center w-100">
-                                    <a target="_blank" href="https://acorn-html-classic-dashboard.coloredstrategies.com/" class="btn btn-primary btn-sm sw-10 sw-lg-12 d-block mx-auto my-1">
-                                        Html
-                                    </a>
-                                    <a target="_blank" href="https://acorn-laravel-classic-dashboard.coloredstrategies.com/" class="btn btn-primary btn-sm sw-10 sw-lg-12 d-block mx-auto my-1">
-                                        Laravel
-                                    </a>
-                                    <a target="_blank" href="https://acorn-dotnet-classic-dashboard.coloredstrategies.com/" class="btn btn-primary btn-sm sw-10 sw-lg-12 d-block mx-auto my-1">
-                                        .Net5
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mb-5">
-                        <label class="mb-2 d-inline-block form-label">Medical Assistant</label>
-                        <div class="hover-reveal-buttons position-relative hover-reveal cursor-default">
-                            <div class="position-relative mb-3 mb-lg-5 rounded-sm">
-                                <img src="https://acorn.coloredstrategies.com/img/page/medical-assistant.webp" class="img-fluid rounded-sm lower-opacity border border-separator-light" alt="card image" />
-                                <div class="position-absolute reveal-content rounded-sm absolute-center-vertical text-center w-100">
-                                    <a target="_blank" href="https://acorn-html-medical-assistant.coloredstrategies.com/" class="btn btn-primary btn-sm sw-10 sw-lg-12 d-block mx-auto my-1">
-                                        Html
-                                    </a>
-                                    <a target="_blank" href="https://acorn-laravel-medical-assistant.coloredstrategies.com/" class="btn btn-primary btn-sm sw-10 sw-lg-12 d-block mx-auto my-1">
-                                        Laravel
-                                    </a>
-                                    <a target="_blank" href="https://acorn-dotnet-medical-assistant.coloredstrategies.com/" class="btn btn-primary btn-sm sw-10 sw-lg-12 d-block mx-auto my-1">
-                                        .Net5
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mb-5">
-                        <label class="mb-2 d-inline-block form-label">Service Provider</label>
-                        <div class="hover-reveal-buttons position-relative hover-reveal cursor-default">
-                            <div class="position-relative mb-3 mb-lg-5 rounded-sm">
-                                <img src="https://acorn.coloredstrategies.com/img/page/service-provider.webp" class="img-fluid rounded-sm lower-opacity border border-separator-light" alt="card image" />
-                                <div class="position-absolute reveal-content rounded-sm absolute-center-vertical text-center w-100">
-                                    <a target="_blank" href="https://acorn-html-service-provider.coloredstrategies.com/" class="btn btn-primary btn-sm sw-10 sw-lg-12 d-block mx-auto my-1">
-                                        Html
-                                    </a>
-                                    <a target="_blank" href="https://acorn-laravel-service-provider.coloredstrategies.com/" class="btn btn-primary btn-sm sw-10 sw-lg-12 d-block mx-auto my-1">
-                                        Laravel
-                                    </a>
-                                    <a target="_blank" href="https://acorn-dotnet-service-provider.coloredstrategies.com/" class="btn btn-primary btn-sm sw-10 sw-lg-12 d-block mx-auto my-1">
-                                        .Net5
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mb-5">
-                        <label class="mb-2 d-inline-block form-label">Elearning Portal</label>
-                        <div class="hover-reveal-buttons position-relative hover-reveal cursor-default">
-                            <div class="position-relative mb-3 mb-lg-5 rounded-sm">
-                                <img src="https://acorn.coloredstrategies.com/img/page/elearning-portal.webp" class="img-fluid rounded-sm lower-opacity border border-separator-light" alt="card image" />
-                                <div class="position-absolute reveal-content rounded-sm absolute-center-vertical text-center w-100">
-                                    <a target="_blank" href="https://acorn-html-elearning-portal.coloredstrategies.com/" class="btn btn-primary btn-sm sw-10 sw-lg-12 d-block mx-auto my-1">
-                                        Html
-                                    </a>
-                                    <a target="_blank" href="https://acorn-laravel-elearning-portal.coloredstrategies.com/" class="btn btn-primary btn-sm sw-10 sw-lg-12 d-block mx-auto my-1">
-                                        Laravel
-                                    </a>
-                                    <a target="_blank" href="https://acorn-dotnet-elearning-portal.coloredstrategies.com/" class="btn btn-primary btn-sm sw-10 sw-lg-12 d-block mx-auto my-1">
-                                        .Net5
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mb-5">
-                        <label class="mb-2 d-inline-block form-label">Ecommerce Platform</label>
-                        <div class="hover-reveal-buttons position-relative hover-reveal cursor-default">
-                            <div class="position-relative mb-3 mb-lg-5 rounded-sm">
-                                <img src="https://acorn.coloredstrategies.com/img/page/ecommerce-platform.webp" class="img-fluid rounded-sm lower-opacity border border-separator-light" alt="card image" />
-                                <div class="position-absolute reveal-content rounded-sm absolute-center-vertical text-center w-100">
-                                    <a target="_blank" href="https://acorn-html-ecommerce-platform.coloredstrategies.com/" class="btn btn-primary btn-sm sw-10 sw-lg-12 d-block mx-auto my-1">
-                                        Html
-                                    </a>
-                                    <a target="_blank" href="https://acorn-laravel-ecommerce-platform.coloredstrategies.com/" class="btn btn-primary btn-sm sw-10 sw-lg-12 d-block mx-auto my-1">
-                                        Laravel
-                                    </a>
-                                    <a target="_blank" href="https://acorn-dotnet-ecommerce-platform.coloredstrategies.com/" class="btn btn-primary btn-sm sw-10 sw-lg-12 d-block mx-auto my-1">
-                                        .Net5
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="mb-5">
-                        <label class="mb-2 d-inline-block form-label">Starter Project</label>
-                        <div class="hover-reveal-buttons position-relative hover-reveal cursor-default">
-                            <div class="position-relative mb-3 mb-lg-5 rounded-sm">
-                                <img src="https://acorn.coloredstrategies.com/img/page/starter-project.webp" class="img-fluid rounded-sm lower-opacity border border-separator-light" alt="card image" />
-                                <div class="position-absolute reveal-content rounded-sm absolute-center-vertical text-center w-100">
-                                    <a target="_blank" href="https://acorn-html-starter-project.coloredstrategies.com/" class="btn btn-primary btn-sm sw-10 sw-lg-12 d-block mx-auto my-1">
-                                        Html
-                                    </a>
-                                    <a target="_blank" href="https://acorn-laravel-starter-project.coloredstrategies.com/" class="btn btn-primary btn-sm sw-10 sw-lg-12 d-block mx-auto my-1">
-                                        Laravel
-                                    </a>
-                                    <a target="_blank" href="https://acorn-dotnet-starter-project.coloredstrategies.com/" class="btn btn-primary btn-sm sw-10 sw-lg-12 d-block mx-auto my-1">
-                                        .Net5
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Niches Modal End -->
 
 <!-- Theme Settings & Niches Buttons Start -->
 <div class="settings-buttons-container">
     <button type="button" class="btn settings-button btn-primary p-0" data-bs-toggle="modal" data-bs-target="#settings" id="settingsButton">
-        <span class="d-inline-block no-delay" data-bs-delay="0" data-bs-offset="0,3" data-bs-toggle="tooltip" data-bs-placement="left" title="Settings">
-            <i data-acorn-icon="paint-roller" class="position-relative"></i>
-        </span>
-    </button>
-    <button type="button" class="btn settings-button btn-primary p-0" data-bs-toggle="modal" data-bs-target="#niches" id="nichesButton">
-        <span class="d-inline-block no-delay" data-bs-delay="0" data-bs-offset="0,3" data-bs-toggle="tooltip" data-bs-placement="left" title="Niches">
-            <i data-acorn-icon="toy" class="position-relative"></i>
-        </span>
+    <span class="d-inline-block no-delay" data-bs-delay="0" data-bs-offset="0,3" data-bs-toggle="tooltip" data-bs-placement="left" title="Tema Ayarları">
+      <i data-acorn-icon="paint-roller" class="position-relative"></i>
+    </span>
     </button>
 </div>
 <!-- Theme Settings & Niches Buttons End -->

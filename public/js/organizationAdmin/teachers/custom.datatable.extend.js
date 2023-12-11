@@ -364,5 +364,5 @@ class EditableRows {
                 }
             },
         });
-    };
+    }
 }

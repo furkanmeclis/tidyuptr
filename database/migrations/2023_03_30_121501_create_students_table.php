@@ -18,6 +18,8 @@ class CreateStudentsTable extends Migration
             $table->unsignedBigInteger('organization_id')->nullable();
             $table->string('email');
             $table->string('name');
+            $table->string('grade');
+            $table->string('identity_number')->nullable();
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
             $table->string('password');

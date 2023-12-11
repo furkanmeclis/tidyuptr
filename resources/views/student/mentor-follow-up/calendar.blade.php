@@ -23,7 +23,7 @@
         let CALENDAR_DATA = <?=json_encode($data)?>;
         CALENDAR_DATA = JSON.parse(JSON.stringify(CALENDAR_DATA).replace(/"\s+|\s+"/g, '"'));
     </script>
-    <script src="/js/apps/calendar.js"></script>
+    <script src="/js/student/mentor.js"></script>
 @endsection
 
 @section('content')
@@ -39,6 +39,9 @@
                 </div>
                 <div class="w-100 d-md-none"></div>
                 <div class="col-auto d-flex align-items-start justify-content-end">
+                    <button type="button" class="btn btn-outline-primary btn-icon btn-icon-only ms-1" id="openNewModal">
+                        <i data-acorn-icon="plus"></i>
+                    </button>
                     <button type="button" class="btn btn-outline-primary btn-icon btn-icon-only ms-1" id="goPrev">
                         <i data-acorn-icon="chevron-left"></i>
                     </button>
@@ -95,6 +98,25 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Kapat</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade modal-close-out" id="newModal" tabindex="-1" role="dialog" aria-labelledby="newModal" aria-hidden="true" data-url="{{route('student.mentor.store')}}">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Yeni Ajanda Verisi Ekle</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="input-group mb-3">
+                            <input type="file" class="form-control" id="fileAgenta">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Kapat</button>
+                        <button type="button" class="btn btn-primary" id="saveNewAgenta">Kaydet</button>
                     </div>
                 </div>
             </div>

@@ -60,6 +60,12 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            @component('components.chart',["url"=> route('teacher.getStatsStudent',$student->id)])
+                            @endcomponent
+                        </div>
+                    </div>
                     <!-- Content End -->
                 @else
                     <h2 class="small-title h1 mb-5">Kayıt Bulunamadı</h2>

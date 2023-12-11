@@ -13,42 +13,33 @@ class StudentAssignmentController extends \Illuminate\Routing\Controller
 {
     public function index()
     {
-        $assignments = Assignments::where('teacher_id', auth('teacher')->user()->id)->get();
-        return view('teacher.assignment.all')->with('assignments', $assignments);
+        $assignment_ids = AssignmentStudents::where('student_id', auth('student')->user()->id)->pluck('assignment_id');
+        $assignments = Assignments::whereIn('id', $assignment_ids)->get();
+        return view('student.assignment.all')->with('assignments', $assignments);
     }
-    public function create()
-    {
-        return view('teacher.assignment.create');
-    }
-    public function store(Request $request)
+
+    public function store(Request $request,$id)
     {
         try {
-            $assignment = new Assignments();
-            $assignment->teacher_id = auth('teacher')->user()->id;
-            $assignment->title = $request->input('title');
-            $assignment->description = $request->input('description');
-            $assignment->due_date = Carbon::createFromFormat('d/m/Y', $request->input('due_date'))->format('Y-m-d');
-
-            if ($request->hasFile('file')) {
-                $file = $request->file('file');
-                $path = $file->store('uploads');
-                $assignment->file = $path;
-            }
-
-            if ($assignment->save()) {
-                $students = [];
-                foreach($request->input('student_ids') as $stid){
-                    $students[] = [
-                        'student_id' => $stid,
-                        'assignment_id' => $assignment->id,
-                        'created_at' => Carbon::now(),
-                        'updated_at' => Carbon::now(),
-                    ];
+            $student = auth('student')->user();
+            if(AssignmentStudents::where('assignment_id',$id)->where('student_id',$student->id)->count() == 1){
+                $as_res = new AssignmentResponses();
+                $as_res->assignment_id = $id;
+                $as_res->student_id = $student->id;
+                $as_res->response = $request->input('content');
+                $as_res->file = null;
+                if ($request->hasFile('file')) {
+                    $file = $request->file('file');
+                    $path = $file->store('uploads');
+                    $as_res->file = $path;
                 }
-                AssignmentStudents::insert($students);
-                return response()->json(['status' => true, 'message' => 'Ödev Eklendi',"url" => route('teacher.assignment.show',$assignment->id)]);
-            } else {
-                return response()->json(['status' => false, 'message' => 'Ödev Eklenemedi']);
+                if ($as_res->save()) {
+                    return response()->json(['status' => true, 'message' => 'Ödev Gönderildi']);
+                } else {
+                    return response()->json(['status' => false, 'message' => 'Ödev Gönderilemedi']);
+                }
+            }else{
+                return response()->json(['status' => false, 'message' => 'Bu Ödevden Sorumlu Değilsiniz']);
             }
         } catch (\Exception $e) {
             return response()->json(['status' => false, 'message' => $e->getMessage()]);
@@ -57,7 +48,10 @@ class StudentAssignmentController extends \Illuminate\Routing\Controller
     public function show($id)
     {
         $assignment = Assignments::find($id);
-        return view('teacher.assignment.show')->with('assignment', $assignment);
+        return view('student.assignment.show')->with('assignment', $assignment)
+            ->with('response',AssignmentResponses::where('assignment_id',$id)
+            ->where('student_id',auth('student')->user()->id)
+                ->first());
     }
     public function showResponse($assignmenId,$id)
     {

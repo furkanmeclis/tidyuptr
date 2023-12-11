@@ -21,10 +21,22 @@ $(function () {
             name: {
                 required: true,
             },
+            identity_number:{
+                required: true,
+                minlength: 11,
+                maxlength: 11,
+            },
+            grade:{
+                required: true,
+            }
         },
         messages: {
             email: {
                 email: "E-posta adresiniz doğru formatta olmalıdır!",
+            },
+            identity_number: {
+                minlength: "Kimlik numarası 11 haneli olmalıdır!",
+                maxlength: "Kimlik numarası 11 haneli olmalıdır!",
             },
         },
     };

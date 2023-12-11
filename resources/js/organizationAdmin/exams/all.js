@@ -59,3 +59,6 @@ class EditableRows {
         return;
     }
 }
+$(function () {
+    $("#fmt_select").select2();
+});

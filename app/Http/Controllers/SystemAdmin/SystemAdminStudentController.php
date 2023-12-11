@@ -6,6 +6,7 @@ use App\Models\Exams;
 use App\Models\Organization;
 use App\Models\Student;
 use App\Models\StudentTeacher;
+use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
@@ -52,9 +53,25 @@ class SystemAdminStudentController extends Controller
             ]);
         }
         try {
+            $teacher = Teacher::find($request->input('teacher_id'));
+            if (!$teacher) {
+                return response()->json([
+                    "status" => false,
+                    "message" => "Öğretmen Bulunamadı"
+                ]);
+            }
+            $quantity = StudentTeacher::where('teacher_id', $teacher->id)->count();
+            if ($quantity >= $teacher->max_students) {
+                return response()->json([
+                    "status" => false,
+                    "message" => "Öğretmenin Öğrenci Kontenjanı Dolmuştur"
+                ]);
+            }
             $student = new Student;
             $student->name = $request->input('name');
             $student->email = $request->input('email');
+            $student->identity_number = $request->input('identity_number');
+            $student->grade = $request->input('grade');
             $student->password = Hash::make($request->input('password'));
             if ($request->input('phone')) {
                 $student->phone = $request->input('phone');
@@ -123,6 +140,8 @@ class SystemAdminStudentController extends Controller
             if ($student) {
                 $student->name = $request->input('name');
                 $student->email = $request->input('email');
+                $student->identity_number = $request->input('identity_number');
+                $student->grade = $request->input('grade');
                 if ($request->input('phone')) {
                     $student->phone = $request->input('phone');
                 }
@@ -156,6 +175,15 @@ class SystemAdminStudentController extends Controller
         $student = StudentTeacher::where('student_id',$id)->first();
         if(Student::find($id)){
         if($student){
+            $teacher = Teacher::find($request->input('teacher_id'));
+            $quantity = StudentTeacher::where('teacher_id', $teacher->id)->count();
+
+            if ($quantity > $teacher->max_students || $quantity == $teacher->max_students) {
+                return response()->json([
+                    "status" => false,
+                    "message" => "Öğretmenin Öğrenci Kontenjanı Dolmuştur"
+                ]);
+            }
             $student->teacher_id = $teacher_id;
             if($student->save()){
                 return response()->json([
@@ -169,6 +197,15 @@ class SystemAdminStudentController extends Controller
                 ]);
             }
         }else{
+            $teacher = Teacher::find($request->input('teacher_id'));
+            $quantity = StudentTeacher::where('teacher_id', $teacher->id)->count();
+
+            if ($quantity > $teacher->max_students || $quantity == $teacher->max_students) {
+                return response()->json([
+                    "status" => false,
+                    "message" => "Öğretmenin Öğrenci Kontenjanı Dolmuştur"
+                ]);
+            }
             $new = new StudentTeacher;
             $new->student_id = $id;
             $new->teacher_id = $teacher_id;

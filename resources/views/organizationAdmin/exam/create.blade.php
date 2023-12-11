@@ -44,6 +44,12 @@
                                 <div class="card-body">
                                     <form id="createExam" action="{{ route('organizationAdmin.batchExam.store') }}"
                                           method="POST" class="tooltip-end-bottom" novalidate>
+                                        <div class="alert alert-warning mb-3">
+                                            <span class="alert-message">
+                                                Optik Tarayıcıdan Okuma Yapacak İseniz Ders Sırasına Göre Seçmelisiniz.
+                                                Örnek Önce Türkçe,Sonra Sosyal Bilgiler, Sonra Matematik, Sonra Fen Bilgisi Gibi.
+                                            </span>
+                                        </div>
                                         <div class="mb-3 filled ">
                                             <i data-acorn-icon="quiz"></i>
                                             <input class="form-control" placeholder="Sınav Adı" name="name" />

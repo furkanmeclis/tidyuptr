@@ -143,6 +143,12 @@
                                                     type="button">
                                                     <i data-acorn-icon="eye"></i>
                                                 </a> <a
+                                                    href="{{ route('student.exam.downloadPdf', $exam->id) }}"
+                                                    class="btn mb-1 btn-sm btn-icon btn-icon-only btn-info shadow"
+                                                    data-bs-toggle="tooltip" data-bs-placement="top" title="İndir"
+                                                    type="button">
+                                                    <i data-acorn-icon="cloud-download"></i>
+                                                </a> <a
                                                     href="{{ route('systemAdmin.exam.edit', $exam->id) }}"
                                                     class="btn mb-1 btn-sm btn-icon btn-icon-only btn-warning shadow "
                                                     data-bs-toggle="tooltip" data-bs-placement="top" title="Düzenle"

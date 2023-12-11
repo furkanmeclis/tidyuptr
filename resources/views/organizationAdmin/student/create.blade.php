@@ -108,6 +108,16 @@
 
                                         </div>
                                         <div class="mb-3 filled">
+                                            <i data-acorn-icon="content"></i>
+                                            <input class="form-control" type="number" placeholder="Kimlik Numarası"
+                                                   name="identity_number" />
+                                        </div>
+                                        <div class="mb-3 filled">
+                                            <i data-acorn-icon="medal"></i>
+                                            <input class="form-control" type="number" placeholder="Sınıfı"
+                                                   name="grade" />
+                                        </div>
+                                        <div class="mb-3 filled">
                                             <i data-acorn-icon="at-sign"></i>
                                             <input class="form-control" placeholder="Email Adresi" name="email" />
                                         </div>

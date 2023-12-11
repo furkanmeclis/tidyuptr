@@ -9,17 +9,16 @@
 <script src="/icon/acorn-icons-interface.js"></script>
 <script src="/icon/acorn-icons-learning.js"></script>
 @yield('js_vendor')
-<!-- Vendor Scripts End -->
-<!-- Template Base Scripts Start -->
+@yield('js_components')
 <script src="/js/base/helpers.js"></script>
 <script src="/js/base/globals.js"></script>
 <script src="/js/base/nav.js"></script>
 <script src="/js/base/search.js"></script>
 <script src="/js/base/settings.js"></script>
-<!-- Template Base Scripts End -->
-<!-- Page Specific Scripts Start -->
+
 @yield('js_page')
+@yield('js_end')
 <script src="/js/common.js"></script>
 <script src="/js/scripts.js"></script>
-<script src="/js/helper.js"></script>
 <!-- Page Specific Scripts End -->
+

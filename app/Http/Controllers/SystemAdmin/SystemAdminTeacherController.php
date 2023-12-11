@@ -77,6 +77,7 @@ class SystemAdminTeacherController extends Controller
             $teacher->email =  $request->input('email');
             $teacher->max_students =  $request->input('max_students');
             $teacher->password = Hash::make($request->input('password'));
+            $teacher->is_mentor = $request->input('is_mentor') ? 1 : 0;
             if ($request->input('phone')) {
                 $teacher->phone = $request->input('phone');
             }
@@ -175,6 +176,7 @@ class SystemAdminTeacherController extends Controller
                 $teacher->name =  $request->input('name');
                 $teacher->email =  $request->input('email');
                 $teacher->max_students =  $request->input('max_students');
+                $teacher->is_mentor = $request->input('is_mentor') ? 1 : 0;
                 if ($request->input('phone') != "") {
                     $teacher->phone = $request->input('phone');
                 }

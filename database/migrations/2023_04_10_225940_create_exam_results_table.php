@@ -19,6 +19,7 @@ class CreateExamResultsTable extends Migration
             $table->unsignedBigInteger('lesson_id');
             $table->integer('correct_answers');
             $table->integer('wrong_answers');
+            $table->integer('empty_answers')->default(0);
             $table->timestamps();
             $table->foreign('lesson_id')->references('id')->on('lessons')->onDelete('cascade');
             $table->foreign('exam_id')->references('id')->on('exams')->onDelete('cascade');

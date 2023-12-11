@@ -141,7 +141,7 @@
                                            data-bs-toggle="tooltip" data-bs-placement="left" data-bs-delay="0"
                                            title="Görüntüle" type="button">
                                             <i data-acorn-icon="eye"></i>
-                                        </a> <a href="{{ route('organizationAdmin.student.exam', $student->id) }}"
+                                        </a> <a href="{{ route('organizationAdmin.student.exam.index', $student->id) }}"
                                                 class="btn mb-1 btn-sm btn-icon btn-icon-only btn-info shadow "
                                                 data-bs-toggle="tooltip" data-bs-placement="top" title="Sınavları Görüntüle"
                                                 type="button">

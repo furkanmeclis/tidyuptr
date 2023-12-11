@@ -18,6 +18,9 @@ class FormWizards {
         this._initNoTopNavWizard();
         this._initLastStepEndWizard();
         this._initValidation();
+        jQuery.validator.addMethod("atLeastOneCheckboxChecked", function(value, element) {
+            return $(element).find('input:checked').length > 0;
+        }, "En Az Bir Seçenek Seçilmelidir.");
     }
 
     _initBasicWizard() {

@@ -1,39 +1,8 @@
 $(() => {
-    if (document.querySelector('#lessonsSelect')) {
-        $.ajax({
-            url:document.querySelector('#lessonsSelect').getAttribute('data-lessons-href'),
-            type: 'POST',
-            contentType: 'application/json',
-            success: (data) => {
-                let lessons = [];
-                data.lessons.forEach((lesson) => {
-                    lessons.push({id: lesson.id, value: lesson.name});
-                });
-                new Tagify(document.querySelector('#lessonsSelect'), {
-                    skipInvalid: true,
-                    enforceWhitelist: true,
-                    whitelist: lessons,
-                    dropdown: {
-                        position: 'input',
-                        enabled: 0,
-                    },
-                });
-            },
-            error: (error) => {
-                console.log(error);
-            }
-        });
-
-    }
     let form = document.querySelector('#createExam');
     if(form){
         const validateOptions = {
             errorElement: "div",
-            rules: {
-                name: {
-                    required: true,
-                },
-            },
         };
 
         jQuery(form).validate(validateOptions);

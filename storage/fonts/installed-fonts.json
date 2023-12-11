@@ -1,0 +1,16 @@
+{
+    "raleway": {
+        "normal": "C:\\Users\\90546\\Desktop\\PROJELER\\tidyuptr\\storage\\fonts\/raleway_normal_3fc5eee72db562370e3a32337da4d6f1",
+        "bold": "raleway_bold_e878667000f96d9e51dcca4bb7e59ed4"
+    },
+    "nunito sans": {
+        "300": "C:\\Users\\90546\\Desktop\\PROJELER\\tidyuptr\\storage\\fonts\/nunito_sans_300_aa36004e2e2488deaffe12114308649f",
+        "normal": "C:\\Users\\90546\\Desktop\\PROJELER\\tidyuptr\\storage\\fonts\/nunito_sans_normal_0328b321c2bc04856cea72a702fd4f37",
+        "bold": "nunito_sans_bold_28ff67da00e6dc1987a71083194b317f"
+    },
+    "montserrat": {
+        "300": "C:\\Users\\90546\\Desktop\\PROJELER\\tidyuptr\\storage\\fonts\/montserrat_300_39b1972e72c43f1f0e368a33cc82c0ce",
+        "normal": "C:\\Users\\90546\\Desktop\\PROJELER\\tidyuptr\\storage\\fonts\/montserrat_normal_b74b751c20b429298921949795391ef1",
+        "bold": "montserrat_bold_4b7576218464d90344a2d2769cab2f75"
+    }
+}

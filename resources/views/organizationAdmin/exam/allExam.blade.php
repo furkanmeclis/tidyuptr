@@ -130,6 +130,7 @@
                             <tr>
                                 <th class="text-muted text-uppercase">#ID</th>
                                 <th class="text-muted text-uppercase">Öğrenci Adı</th>
+                                <th class="text-muted text-uppercase">Toplam Net</th>
                                 <th class="text-muted text-uppercase">Sınav Tarihi</th>
                                 <th class="empty">&nbsp;</th>
                             </tr>
@@ -140,6 +141,7 @@
                                 <tr>
                                     <td>{{ $exam->id }}</td>
                                     <td><a href="{{route('organizationAdmin.student.show',$student->id)}}">{{ $student->name }}</a></td>
+                                    <td>{{ $exam->score()->total }} Net</td>
                                     <td>{{ $exam->date() }}</td>
                                     <td>
 
@@ -152,6 +154,24 @@
                                             data-bs-toggle="tooltip" data-bs-placement="left" title="Görüntüle"
                                             type="button">
                                             <i data-acorn-icon="eye"></i>
+                                        </a>@if($exam->batch_exam_id != null) <a
+                                            href="{{ route('organizationAdmin.batchExam.exam.analysis', [
+                                                                                                        "exam" => $batch->id,
+                                                                                                        "examId" => $exam->id,
+                                                                                                    ]) }}"
+                                            class="btn mb-1 btn-sm btn-icon btn-icon-only btn-gradient-primary shadow show-exam-analysis-btn"
+                                            data-bs-toggle="tooltip" data-bs-placement="top" title="Görüntüle"
+                                            type="button">
+                                            <i data-acorn-icon="activity"></i>
+                                        </a>@endif <a
+                                            href="{{ route('organizationAdmin.batchExam.exam.downloadPdf', [
+                                                                                                        "exam" => $batch->id,
+                                                                                                        "examId" => $exam->id,
+                                                                                                    ]) }}"
+                                            class="btn mb-1 btn-sm btn-icon btn-icon-only btn-info shadow"
+                                            data-bs-toggle="tooltip" data-bs-placement="top" title="İndir"
+                                            type="button">
+                                            <i data-acorn-icon="cloud-download"></i>
                                         </a> <a
                                             href="{{ route('organizationAdmin.batchExam.exam.edit', [
                                                                                                         "exam" => $batch->id,
@@ -179,7 +199,7 @@
                     <!-- Table End -->
                 </div>
                 <div class="modal fade" id="xlExample" tabindex="-1" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog modal-semi-full">
+                    <div class="modal-dialog modal-semi-full modal-dialog-scrollable">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h3 class="modal-title">Sınav Sonucu</h3>
@@ -192,7 +212,20 @@
                         </div>
                     </div>
                 </div>
-
+                <div class="modal fade" id="examAnalysis" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 class="modal-title">Sınav Sonucu Konu Analizi</h3>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body" id="examAnalysisResultArea"></div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             </div>
         </div>

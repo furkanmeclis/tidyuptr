@@ -32,10 +32,14 @@ class Carousels {
       new GlideCustom(
         document.querySelector('#glideBasic'),
         {
-          gap: 0,
-          rewind: false,
-          bound: true,
-          perView: 6,
+
+            gap: 0,
+            rewind: false,
+            autoplay: 3000,
+            hoverpause: true,
+            animationDuration: 500,
+            animationTimingFunc: 'linear',
+            type: 'carousel',
           breakpoints: {
             400: {perView: 1},
             1000: {perView: 2},

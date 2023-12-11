@@ -35,6 +35,56 @@ class OrganizationTeacherController extends Controller
             'selected' => $this->getTeachersHelper == $item->id ? true : false,
         ];
     }
+    public function create()
+    {
+        return view('organizationAdmin.teacher.create');
+    }
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => [
+                'required',
+                'email',
+                'unique:teachers'
+            ]
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => ucfirst($validator->errors()->first('email'))
+            ]);
+        }
+        try {
+            $teacher = new Teacher;
+            $teacher->name =  $request->input('name');
+            $teacher->email =  $request->input('email');
+            $teacher->max_students =  $request->input('max_students');
+            $teacher->is_mentor = $request->input('is_mentor') ? 1 : 0;
+            $teacher->password = Hash::make($request->input('password'));
+            if ($request->input('phone')) {
+                $teacher->phone = $request->input('phone');
+            }
+            if ($teacher->saveOrFail()) {
+                $orgTeacher = new OrganizationTeacher;
+                $orgTeacher->organization_id = auth('organization')->user()->id;
+                $orgTeacher->teacher_id = $teacher->id;
+                $orgTeacher->save();
+                return response()->json([
+                    "status" => true,
+                    "message" => "Ekleme İşlemi Başarılı",
+                    "url" => route('organizationAdmin.teacher.show', ["teacher" => $teacher->id])
+                ]);
+            } else {
+                return response()->json([
+                    "status" => false,
+                    "message" => "Ekleme İşlemi Başarısız"
+                ]);
+            }
+        } catch (\Exception $e) {
+            return response()->json(["status" => false, "message" => $e->getMessage()]);
+        }
+    }
+
     public function getTeachers($id = false)
     {
 
@@ -46,7 +96,7 @@ class OrganizationTeacherController extends Controller
         }
         $responseArr = array();
         $getTeacherIds = OrganizationTeacher::where('organization_id',Auth::guard('organization')->user()->id)->pluck('teacher_id')->toArray();
-        $teachers = Teacher::whereIn('id',$getTeacherIds)->get()->map(function ($item,$key){
+        $teachers = Teacher::whereIn('id',$getTeacherIds)->where('is_mentor',1)->get()->map(function ($item,$key){
             return $this->getTeachersHelper($item,$key);
         })->toArray();
         if($this->getTeachersHelper == false){
@@ -64,7 +114,7 @@ class OrganizationTeacherController extends Controller
     {
         return $this->view('teacher.showStudent')
             ->with('teacher', Teacher::find($id))
-            ->with('students', StudentTeacher::where('teacher_id', $id)->get());
+            ->with('students', StudentTeacher::where('teacher_id', $id)->whereIn('student_id',Student::where('organization_id',auth('organization')->user()->id)->pluck('id')->toArray())->get());
     }
     public function endRegistration(Request $request,$id)
     {

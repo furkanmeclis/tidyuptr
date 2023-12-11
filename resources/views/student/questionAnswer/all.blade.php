@@ -19,7 +19,7 @@
 @endsection
 
 @section('js_page')
-    <script src="/js/teacher/questions/all.js"></script>
+    <script src="/js/student/questions/all.js"></script>
 @endsection
 
 @section('content')
@@ -56,7 +56,7 @@
                                 <div class="tab-pane fade active show h-100 scroll-out" id="messages" role="tabpanel">
                                     <div class="h-100 nav py-0" >
                                         @foreach($questions as $question)
-                                            <a href="{{route('teacher.questionAnswer.index',$question->id)}}" class="row w-100 d-flex flex-row g-0 sh-5 mb-2 nav-link p-0 contact-list-item border-bottom {{$activeQuestion->id == $question->id ? "active":""}}" id="{{$activeQuestion->id == $question->id ? "activeQuestion":""}}">
+                                            <a href="{{route('student.questionAnswer.index',$question->id)}}" class="row w-100 d-flex flex-row g-0 sh-5 mb-2 nav-link p-0 contact-list-item border-bottom {{$activeQuestion->id == $question->id ? "active":""}}" id="{{$activeQuestion->id == $question->id ? "activeQuestion":""}}">
 
                                                 <div class="col">
                                                     <div class="card-body d-flex flex-row pt-0 pb-0 ps-3 pe-0 h-100 align-items-center justify-content-between">
@@ -77,14 +77,17 @@
                                 <!-- Messages End -->
                             </div>
                         </div>
+
                         <div class="card-footer px-3 py-2 d-flex justify-content-center align-items-center">
                             {{ $questions->links() }}
                         </div>
                     </div>
                 </div>
             </div>
+
             @if($activeQuestion)
                 @php($student = $activeQuestion->student())
+                @php($teacher = $activeQuestion->teacher())
                 @php($answers = $activeQuestion->answers())
                 <div class="col h-100" id="chatView">
                     <!-- Chat View Start -->
@@ -96,14 +99,14 @@
                                     <div class="row g-0 sh-6 align-self-start" id="contactTitle" >
                                         <div class="col-auto">
                                             <div class="sh-6 sw-6 d-inline-block position-relative">
-                                                <img src="{{getAvatarUrl($student->name)}}" class="img-fluid rounded-xl border border-2 border-foreground profile" alt="thumb" />
+                                                <img src="{{getAvatarUrl($teacher->name)}}" class="img-fluid rounded-xl border border-2 border-foreground profile" alt="thumb" />
                                             </div>
                                         </div>
                                         <div class="col">
                                             <div class="card-body d-flex flex-row pt-0 pb-0 pe-0 pe-0 ps-2 h-100 align-items-center justify-content-between">
                                                 <div class="d-flex flex-column">
                                                     <div class="name">{{$activeQuestion->question}}</div>
-                                                    <a href="{{route('teacher.student.show',$student->id)}}" class="text-small text-muted last">{{$student->name}}</a>
+                                                    <a href="#" class="text-small text-muted last">{{$teacher->name}}</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -111,10 +114,24 @@
                                     </div>
 
                                     @if($answers->count() > 0)
+                                        <div class="ms-auto ms-1">
+                                            @if(!$activeQuestion->is_answered)
+                                                <a
+                                                    type="button"
+                                                    class="btn btn-outline-primary btn-icon btn-icon-only is-answered"
+                                                    href="{{route('student.questionAnswer.complete',$activeQuestion->id)}}"
+                                                    data-bs-toggle="tooltip"
+                                                    data-bs-placement="bottom"
+                                                    title="Sorum Cevaplandı"
+                                                    data-delay='{"show":"250", "hide":"0"}'
+                                                >
+                                                    <i data-acorn-icon="check-circle"></i>
+                                                </a>
+                                            @endif
                                         <a
                                             type="button"
-                                            class="btn btn-outline-primary btn-icon btn-icon-only ms-1 ms-auto"
-                                            href="{{route('teacher.questionAnswer.download',$activeQuestion->id)}}"
+                                            class="btn btn-outline-primary btn-icon btn-icon-only "
+                                            href="{{route('student.questionAnswer.download',$activeQuestion->id)}}"
                                             target="_blank"
                                             data-bs-toggle="tooltip"
                                             data-bs-placement="bottom"
@@ -123,6 +140,8 @@
                                         >
                                             <i data-acorn-icon="cloud-download"></i>
                                         </a>
+
+                                        </div>
                                     @endif
                                 </div>
 
@@ -131,7 +150,7 @@
                                 <div style="max-height: 500px;overflow-y: auto" class="scroll px-2" id="content_card_body">
                                 @if($answers->count() > 0)
                                 @foreach($answers as $answer)
-                                    @if($answer->is_teacher)
+                                    @if(!$answer->is_teacher)
                                         @if($answer->file != null)
                                             <div class="mb-2 card-content">
                                                 <div class="row g-2">
@@ -189,9 +208,8 @@
                             </div>
                             </div>
                         </div>
-                        <!-- Message Input Start -->
                         @if(!$activeQuestion->is_answered)
-                            <form id="sendAnswer" method="POST" action="{{route('teacher.questionAnswer.answer',$activeQuestion->id)}}">
+                            <form id="sendAnswer" method="POST" action="{{route('student.questionAnswer.answer',$activeQuestion->id)}}">
                                 <div class="card">
                                     <div class="card-body p-0 d-flex flex-row align-items-center px-3 py-3">
                                         <textarea class="form-control me-3 border-0 ps-2 py-2" required placeholder="Mesajınız" name="message" rows="2" id="chatInput"></textarea>

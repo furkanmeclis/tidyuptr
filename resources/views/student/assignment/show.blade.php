@@ -3,26 +3,33 @@
     $title = 'Ödev Sonuçları';
     $description = '';
     $breadcrumbs = [
-        route('teacher.index') => 'Anasayfa',
-        route('teacher.assignment.index') => 'Ödevler',
-        $assignment ? route('teacher.assignment.show', $assignment->id) : "#" => "Ödev Sonuçları",
+        route('student.index') => 'Anasayfa',
+        route('student.assignment.index') => 'Ödevler',
+        $assignment ? route('student.assignment.show', $assignment->id) : "#" => "Ödev Sonucum",
     ];
 @endphp
 @extends('layout', ['html_tag_data' => $html_tag_data, 'title' => $title, 'description' => $description])
 
 @section('css')
     <link rel="stylesheet" href="/css/vendor/datatables.min.css" />
+    @if(!$response)
+        <link rel="stylesheet" href="/css/vendor/quill.bubble.css"/>
+    @endif
 @endsection
 
 @section('js_vendor')
     <script src="/js/vendor/bootstrap-submenu.js"></script>
     <script src="/js/vendor/datatables.min.js"></script>
+    @if(!$response)
+    <script src="/js/vendor/quill.min.js"></script>
+    <script src="/js/vendor/quill.active.js"></script>
+    @endif
 @endsection
 
 @section('js_page')
     <script src="/js/cs/datatable.extend.js"></script>
-    <script src="/js/teacher/assignments/all.js"></script>
-    <script src="/js/teacher/assignments/helper.js"></script>
+    <script src="/js/student/assignments/all.js"></script>
+    <script src="/js/student/assignments/helper.js"></script>
 @endsection
 
 @section('content')
@@ -43,119 +50,52 @@
                 </div>
                 <!-- Title and Top Buttons End -->
 
-                <!-- Content Start -->
-                <div class="data-table-rows slim">
-                    <!-- Controls Start -->
-                    <div class="row">
-                        <!-- Search Start -->
-                        <div class="col-sm-12 col-md-5 col-lg-3 col-xxl-2 mb-1">
-                            <div
-                                class="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
-                                <input class="form-control datatable-search" placeholder="Ara"
-                                       data-datatable="#datatableRows" />
-                                <span class="search-magnifier-icon">
-                                    <i data-acorn-icon="search"></i>
-                                </span>
-                                <span class="search-delete-icon d-none">
-                                    <i data-acorn-icon="close"></i>
-                                </span>
-                            </div>
-                        </div>
-                        <!-- Search End -->
+                <div class="card">
+                    <div class="card-body">
+                        @if($response)
+                            <h3>Sonuç İçeriği</h3>
+                            {!! $response->response !!}
+                            <hr>
+                            <div class="d-flex justify-content-end">
+                                <div title="Ek İçerik" class="sw-30 mt-2">
+                                    <div class="row g-0 rounded-sm sh-8 border">
+                                        <div class="col-auto">
+                                            <div class="sw-10 d-flex justify-content-center align-items-center h-100">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="acorn-icons acorn-icons-file-empty mb-3 d-inline-block text-primary"><path d="M6.5 18H13.5C14.9045 18 15.6067 18 16.1111 17.6629C16.3295 17.517 16.517 17.3295 16.6629 17.1111C17 16.6067 17 15.9045 17 14.5V7.44975C17 6.83775 17 6.53175 16.9139 6.24786C16.8759 6.12249 16.8256 6.00117 16.7638 5.88563C16.624 5.62399 16.4076 5.40762 15.9749 4.97487L14.0251 3.02513L14.0251 3.02512C13.5924 2.59238 13.376 2.37601 13.1144 2.23616C12.9988 2.1744 12.8775 2.12415 12.7521 2.08612C12.4682 2 12.1622 2 11.5503 2H6.5C5.09554 2 4.39331 2 3.88886 2.33706C3.67048 2.48298 3.48298 2.67048 3.33706 2.88886C3 3.39331 3 4.09554 3 5.5V14.5C3 15.9045 3 16.6067 3.33706 17.1111C3.48298 17.3295 3.67048 17.517 3.88886 17.6629C4.39331 18 5.09554 18 6.5 18Z"></path></svg>
+                                            </div>
+                                        </div>
+                                        <div class="col rounded-sm-end d-flex flex-column justify-content-center pe-3">
+                                            <div class="d-flex justify-content-between">
+                                                <p class="mb-0 clamp-line" data-line="1" style="overflow: hidden; text-overflow: ellipsis; -webkit-box-orient: vertical; display: -webkit-box; -webkit-line-clamp: 1;" title="{{$response->getFileName()}}">{{\Illuminate\Support\Str::limit($response->getFileName(),10,"...")}}</p>
 
-                        <div class="col-sm-12 col-md-7 col-lg-9 col-xxl-10 text-end mb-1">
-                            <div class="d-inline-block">
-                                <button class="btn btn-icon btn-icon-only btn-foreground-alternate shadow datatable-print"
-                                        data-datatable="#datatableRows" data-bs-toggle="tooltip" data-bs-placement="top"
-                                        data-bs-delay="0" title="Yazdır" type="button">
-                                    <i data-acorn-icon="print"></i>
-                                </button>
-                                <div class="d-inline-block datatable-export" data-datatable="#datatableRows">
-                                    <button class="btn p-0" data-bs-toggle="dropdown" type="button" data-bs-offset="0,3">
-                                        <span class="btn btn-icon btn-icon-only btn-foreground-alternate shadow dropdown"
-                                              data-bs-delay="0" data-bs-placement="top" data-bs-toggle="tooltip"
-                                              title="İndir">
-                                            <i data-acorn-icon="download"></i>
-                                        </span>
-                                    </button>
-                                    <div class="dropdown-menu shadow dropdown-menu-end">
-                                        <button class="dropdown-item export-copy" type="button">Kopyala</button>
-                                        <button class="dropdown-item export-excel" type="button">Excel</button>
-                                        <button class="dropdown-item export-cvs" type="button">Csv</button>
+                                                <a target="_blank" href="{{$response->getFileUrl()}}" download="{{$response->getFileName()}}" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-delay="{&quot;show&quot;:&quot;1000&quot;, &quot;hide&quot;:&quot;0&quot;}" data-bs-original-title="İndir">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="acorn-icons acorn-icons-cloud-download undefined"><path d="M12 16 10.3536 17.6464C10.1583 17.8417 9.84171 17.8417 9.64645 17.6464L8 16M10 7 10 17"></path><path d="M15 13C16.5 13 18 12 18 8.94737C18 6.69591 16.2636 4.89474 14.093 4.89474C14.031 4.89474 13.969 4.89474 13.907 4.89474C13.2248 3.22222 11.6124 2 9.68992 2C7.33333 2.06433 5.41085 3.92983 5.22481 6.30994C3.42636 6.30994 2 7.78947 2 9.65497C2 11.5205 3.42636 13 5.22481 13"></path></svg>
+                                                </a>
+
+                                            </div>
+                                            <div class="text-small text-primary" title="Boyut">{{$response->getFileSize()}}</div>
+
+                                        </div>
                                     </div>
                                 </div>
-                                <!-- Export Dropdown End -->
-
-                                <!-- Length Start -->
-                                <div class="dropdown-as-select d-inline-block datatable-length"
-                                     data-datatable="#datatableRows" data-childSelector="span">
-                                    <button class="btn p-0 shadow" type="button" data-bs-toggle="dropdown"
-                                            aria-haspopup="true" aria-expanded="false" data-bs-offset="0,3">
-                                        <span class="btn btn-foreground-alternate dropdown-toggle" data-bs-toggle="tooltip"
-                                              data-bs-placement="top" data-bs-delay="0" title="Satır Sayısı">
-                                            5 Öğrenci
-                                        </span>
-                                    </button>
-                                    <div class="dropdown-menu shadow dropdown-menu-end">
-                                        <a class="dropdown-item active" href="#">5 Sonuç</a>
-                                        <a class="dropdown-item" href="#">10 Sonuç</a>
-                                        <a class="dropdown-item" href="#">20 Sonuç</a>
-                                    </div>
-                                </div>
-                                <!-- Length End -->
                             </div>
-                        </div>
-                    </div>
-                    <!-- Controls End -->
+                        @else
+                            <h3>Ödev İçeriği</h3>
+                            <form id="sendAssignment" class="mt-3" action="{{ route('student.assignment.store',$assignment->id) }}"
+                                  method="POST" class="tooltip-end-bottom" novalidate>
 
-                    <!-- Table Start -->
-                    <div class="data-table-responsive-wrapper">
-                        <table id="datatableRows" class="data-table">
-                            <thead>
-                            <tr>
-                                <th class="text-muted text-uppercase">Öğrenci Adı</th>
-                                <th class="text-muted text-uppercase">Gönderme Tarihi</th>
-                                <th class="text-muted text-uppercase">Dosya</th>
-                                <th class="empty">&nbsp;</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach ($assignment->responses() as $response)
-                                @php($student = $response->student())
-                                <tr>
-                                    <td><a target="_blank" href="{{route('teacher.student.show',$student->id)}}">{{ $student->name }}</a></td>
-                                    <td>{{ $response->created_at->format('d.m.Y H:i') }}</td>
-                                    <td>{!! $response->file ? "<a target='_blank' title='".$response->getFileName()."' href='".$response->getFileUrl()."'>".\Illuminate\Support\Str::limit($response->getFileName(),20,'...')."</a>":"Dosya Yok" !!}</td>
-                                    <td><a href="{{ route('teacher.assignment.showResponse', ["assignment"=>$assignment->id,"response"=>$response->id]) }}"
-                                           class="btn mb-1 btn-sm btn-icon btn-icon-only btn-success shadow show-assignment-response"
-                                           data-bs-toggle="tooltip" data-bs-placement="left" data-bs-delay="0"
-                                           title="Görüntüle" type="button">
-                                            <i data-acorn-icon="eye"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- Table End -->
-                    <div class="modal fade" id="xlExample" tabindex="-1" role="dialog" aria-hidden="true">
-                        <div class="modal-dialog modal-xl">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h3 class="modal-title">Ödev Sonucu</h3>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <div class="filled custom-control-container editor-container">
+                                    <div class="html-editor sh-20" id="quillEditorFilled"></div>
+                                    <i data-acorn-icon="message"></i>
                                 </div>
-                                <div class="modal-body" id="examResultArea"></div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                                <div class="input-group my-3">
+                                    <input type="file" class="form-control" accept="image/*">
                                 </div>
-                            </div>
-                        </div>
+                                <button class="btn btn-primary" type="submit">Gönder</button>
+                            </form>
+                        @endif
                     </div>
                 </div>
-                <!-- Content End -->
-
 
             </div>
         </div>

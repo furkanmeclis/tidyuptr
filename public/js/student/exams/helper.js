@@ -109,4 +109,26 @@ $(() => {
             });
         });
     }
+    let showAnalysisButtons = document.querySelectorAll(".show-exam-analysis-btn");
+    if(showAnalysisButtons && showAnalysisButtons.length > 0){
+        showAnalysisButtons.forEach((button) => {
+            button.addEventListener("click", (e) => {
+                let link = button.getAttribute("href");
+                e.preventDefault();
+                e.stopPropagation();
+                $.ajax({
+                    url: link,
+                    type: "POST",
+                    dataType: "json",
+                    success: function (response) {
+                        $('#examAnalysisResultArea').html(response.html);
+                        $('#examAnalysis').modal('show');
+                    },
+                    error: function (xhr, status, error) {
+
+                    },
+                });
+            });
+        });
+    }
 });

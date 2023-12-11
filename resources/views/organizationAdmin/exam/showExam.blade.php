@@ -2,6 +2,7 @@
     @php
         $student = $exam->student();
         $results = $exam->results();
+        $wrongQuestions = $exam->getWrongQuestions();
     @endphp
     @if(count($results) > 0)
         <div>
@@ -60,7 +61,28 @@
                 </tr>
                 </tbody>
             </table>
-
+            @if($wrongQuestions)
+                <hr>
+                <h5 class="mb-3">Yanlış Cevaplanan Sorular</h5>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th class="text-center">Soru Numarası</th>
+                        <th class="text-center">Ders</th>
+                        <th class="text-center">Konusu</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($wrongQuestions as $wrongQuestion)
+                        <tr>
+                            <td class="text-center">{{$wrongQuestion->question_number}}</td>
+                            <td class="text-center">{{\App\Models\Lesson::find($wrongQuestion->lesson_id)->name}}</td>
+                            <td class="text-center">{{$wrongQuestion->topic}}</td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            @endif
         </div>
     @else
         <div class="alert alert-warning">Öğrenciye Ait Sonuç Listesi Bulunamadı</div>

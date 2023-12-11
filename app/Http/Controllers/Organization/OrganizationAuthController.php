@@ -33,8 +33,8 @@ class OrganizationAuthController extends Controller
     }
     public function logout()
     {
-        if (Auth::guard('organization')->logout()) {
+        Auth::guard('organization')->logout();
             return redirect()->route('organizationAdmin.login');
-        }
+
     }
 }

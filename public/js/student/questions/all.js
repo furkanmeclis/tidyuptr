@@ -105,5 +105,47 @@ $(() => {
         duration: 500,
         easing: 'linear'
     });
+    let buttons = document.querySelectorAll(".is-answered");
+    if(buttons && buttons.length > 0){
+        buttons.forEach((button) => {
+            button.addEventListener("click", (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                let url = e.target.href;
+                $.ajax({
+                    url: url,
+                    type: "PUT",
+                    success: function (response) {
+                        if (response.status) {
+                            iziToast.success({
+                                title: "Başarılı",
+                                message: response.message,
+                            });
+                            window.location.reload();
+                        } else {
+                            iziToast.error({
+                                title: "Hata",
+                                message: response.message,
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        if (xhr.status == 419) {
+                            iziToast.error({
+                                title: "Hata",
+                                message:
+                                    "CSRF Doğrulama Hatası Lütfen Sayfayı Yenileyin.",
+                            });
+                        } else {
+                            iziToast.error({
+                                title: "Hata",
+                                message: "Bir Hata Oluştu: " + error,
+                            });
+                        }
+                    },
+                });
+            });
+        });
+    }
 });
 

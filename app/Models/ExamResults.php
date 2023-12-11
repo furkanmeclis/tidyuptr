@@ -15,4 +15,6 @@ class ExamResults extends Model
     {
         return $this->belongsTo(Lesson::class)->first();
     }
+
+
 }

@@ -1,6 +1,6 @@
 @php
     $html_tag_data = [];
-    $title = 'Kurum Sınavları';
+    $title = 'Deneme Sınavları';
     $description = '';
     $breadcrumbs = [
         route('organizationAdmin.index') => 'Anasayfa',
@@ -20,8 +20,8 @@
 
 @section('js_page')
     <script src="/js/cs/datatable.extend.js"></script>
-    <script src="/js/organizationAdmin/exams/all.js"></script>
-    <script src="/js/organizationAdmin/exams/helper.js"></script>
+    <script src="/js/student/exams/all.js"></script>
+    <script src="/js/student/exams/helper.js"></script>
 @endsection
 
 @section('content')
@@ -65,7 +65,7 @@
                             <div class="col-sm-12 col-md-7 col-lg-9 col-xxl-10 text-end mb-1">
 
                                 <div class="d-inline-block">
-                                    <a href="{{ route('organizationAdmin.batchExam.create') }}"
+                                    <a href="{{ route('student.exam.create') }}"
                                        class="btn btn-icon btn-icon-only btn-foreground-alternate shadow "
                                        data-bs-toggle="tooltip" data-bs-placement="top" data-bs-delay="0"
                                        title="Yeni Sınav Ekle" type="button">
@@ -128,7 +128,7 @@
                                 <tr>
                                     <th class="text-muted text-uppercase">#ID</th>
                                     <th class="text-muted text-uppercase">Sınav Adı</th>
-                                    <th class="text-muted text-uppercase">Katılım</th>
+                                    <th class="text-muted text-uppercase">Toplam Net</th>
                                     <th class="text-muted text-uppercase">Sınav Tarihi</th>
                                     <th class="empty">&nbsp;</th>
                                 </tr>
@@ -137,29 +137,41 @@
                                 @foreach ($exams as $exam)
                                     <tr>
                                         <td>{{ $exam->id }}</td>
-                                        <td>{{$exam->name}}</td>
-                                        <td>{{ \App\Models\Exams::where('batch_exam_id',$exam->id)->count() }} Öğrenci</td>
-                                        <td>{{$exam->date()}}</td>
+                                        <td>{{$exam->batch_exam_id != null ? \App\Models\BatchExams::find($exam->batch_exam_id)->name : "Bireysel Sınav"}}</td>
+                                        <td>{{$exam->score()->total}} Net</td>
+                                        <td>{{$exam->created_at->format('d.m.Y H:i')}}</td>
                                         <td>
 
                                             <a
-                                                href="{{ route('organizationAdmin.batchExam.show', $exam->id) }}"
-                                                class="btn mb-1 btn-sm btn-icon btn-icon-only btn-success shadow"
+                                                href="{{ route('student.exam.show', $exam->id) }}"
+                                                class="btn mb-1 btn-sm btn-icon btn-icon-only btn-success shadow show-exam-btn"
                                                 data-bs-toggle="tooltip" data-bs-placement="left" title="Görüntüle"
                                                 type="button">
                                                 <i data-acorn-icon="eye"></i>
-                                            </a> <a
-                                                href="{{ route('organizationAdmin.batchExam.edit', $exam->id) }}"
+                                            </a>@if($exam->batch_exam_id != null) <a
+                                                href="{{ route('student.exam.analysis', $exam->id) }}"
+                                                class="btn mb-1 btn-sm btn-icon btn-icon-only btn-gradient-primary shadow show-exam-analysis-btn"
+                                                data-bs-toggle="tooltip" data-bs-placement="top" title="Görüntüle"
+                                                type="button">
+                                                <i data-acorn-icon="activity"></i>
+                                            </a>@endif <a
+                                                href="{{ route('student.exam.downloadPdf', $exam->id) }}"
+                                                class="btn mb-1 btn-sm btn-icon btn-icon-only btn-info shadow"
+                                                data-bs-toggle="tooltip" data-bs-placement="top" title="İndir"
+                                                type="button">
+                                                <i data-acorn-icon="cloud-download"></i>
+                                            </a>@if($exam->batch_exam_id == null) <a
+                                                href="{{ route('student.exam.edit', $exam->id) }}"
                                                 class="btn mb-1 btn-sm btn-icon btn-icon-only btn-warning shadow"
                                                 data-bs-toggle="tooltip" data-bs-placement="top" title="Düzenle"
                                                 type="button">
                                                 <i data-acorn-icon="edit"></i>
-                                            </a> <a href="{{ route('organizationAdmin.batchExam.destroy', $exam->id) }}"
+                                            </a> <a href="{{ route('student.exam.destroy', $exam->id) }}"
                                                     class="btn  mb-1 btn-sm btn-icon btn-icon-only btn-danger shadow delete-exam-btn"
                                                     data-bs-toggle="tooltip" data-bs-placement="right" data-bs-delay="0"
                                                     title="Sil" type="button">
                                                 <i data-acorn-icon="bin"></i>
-                                            </a>
+                                            </a>@endif
                                         </td>
                                     </tr>
                                 @endforeach
@@ -176,6 +188,20 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body" id="examResultArea"></div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <div class="modal fade" id="examAnalysis" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3 class="modal-title">Sınav Sonucu Konu Analizi</h3>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body" id="examAnalysisResultArea"></div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
                                 </div>

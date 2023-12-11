@@ -7,14 +7,16 @@
  **/
 
 (function () {
-  let isContentLoaded = false;
-  const timeoutId = setTimeout(() => {
-    if (!isContentLoaded) {
-      document.body.classList.add('spinner');
+  window.isContentLoaded = false;
+  const timeoutId = setInterval(() => {
+    if (!window.isContentLoaded) {
+        document.body.classList.add('spinner');
+    }else{
+        document.body.classList.remove('spinner');
     }
   }, 500);
 
   window.addEventListener('DOMContentLoaded', (event) => {
-    isContentLoaded = true;
+      window.isContentLoaded = true;
   });
 })();

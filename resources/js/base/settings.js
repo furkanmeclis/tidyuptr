@@ -38,7 +38,7 @@ class Settings {
                 navcolor: "default",
             },
             storagePrefix: "acorn-standard-",
-            showSettings: false,
+            showSettings: true,
             carryParams: false,
         };
     }

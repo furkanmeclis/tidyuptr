@@ -70,6 +70,10 @@
                                             <input class="form-control" type="number" placeholder="Öğrenci Kapasitesi"
                                                 name="max_students" />
                                         </div>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" name="is_mentor" type="checkbox" id="flexSwitchCheckDefault">
+                                            <label class="form-check-label" for="flexSwitchCheckDefault">Mentör Öğretmen</label>
+                                        </div>
                                         <button class="btn btn-primary" type="submit">Ekle</button>
                                     </form>
                                 </div>

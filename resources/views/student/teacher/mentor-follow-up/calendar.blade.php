@@ -23,7 +23,7 @@
         let CALENDAR_DATA = <?=json_encode($data)?>;
         CALENDAR_DATA = JSON.parse(JSON.stringify(CALENDAR_DATA).replace(/"\s+|\s+"/g, '"'));
     </script>
-    <script src="/js/apps/calendar.js"></script>
+    <script src="/js/teacher/mentor.js"></script>
 @endsection
 
 @section('content')

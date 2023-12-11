@@ -33,8 +33,7 @@ class TeacherAuthController extends Controller
     }
     public function logout()
     {
-        if (Auth::guard('teacher')->logout()) {
-            return redirect()->route('teacher.login');
-        }
+        Auth::guard('teacher')->logout();
+        return redirect()->route('teacher.login');
     }
 }

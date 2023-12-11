@@ -345,7 +345,7 @@ class Scripts {
         if (typeof Settings !== "undefined") {
             const settings = new Settings({
                 attributes: { placement: "vertical" },
-                showSettings: false,
+                showSettings: true,
                 storagePrefix: "acorn-classic-dashboard-",
             });
         }

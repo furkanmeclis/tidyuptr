@@ -33,7 +33,6 @@
 
                 <!-- Content Start -->
                 <div>
-                    <section class="scroll-section" id="basic">
 
                         <!-- Filled Start -->
                         <section class="scroll-section" id="filled">

@@ -124,6 +124,8 @@
                             <thead>
                             <tr>
                                 <th class="text-muted text-uppercase">#ID</th>
+                                <th class="text-muted text-uppercase">Sınav Adı</th>
+                                <th class="text-muted text-uppercase">Toplam Net</th>
                                 <th class="text-muted text-uppercase">Sınav Tarihi</th>
                                 <th class="empty">&nbsp;</th>
                             </tr>
@@ -132,28 +134,35 @@
                             @foreach ($exams as $exam)
                                 <tr>
                                     <td>{{ $exam->id }}</td>
-                                    <td>{{ $exam->date() }}</td>
+                                    <td>{{$exam->batch_exam_id != null ? \App\Models\BatchExams::find($exam->batch_exam_id)->name : "Bireysel Sınav"}}</td>
+                                    <td>{{$exam->score()->total}} Net</td>
+                                    <td>{{$exam->created_at->format('d.m.Y H:i')}}</td>
                                     <td>
+
                                         <a
-                                            href="{{ route('organizationAdmin.exam.edit', $exam->id) }}"
-                                            class="btn mb-1 btn-sm btn-icon btn-icon-only btn-warning shadow "
-                                            data-bs-toggle="tooltip" data-bs-placement="left" title="Düzenle"
-                                            type="button">
-                                            <i data-acorn-icon="edit"></i>
-                                        </a>
-                                        <a
-                                            href="{{ route('organizationAdmin.exam.show', $exam->id) }}"
+                                            href="{{ route('organizationAdmin.student.exam.show', $exam->id) }}"
                                             class="btn mb-1 btn-sm btn-icon btn-icon-only btn-success shadow show-exam-btn"
-                                            data-bs-toggle="tooltip" data-bs-placement="top" title="Görüntüle"
+                                            data-bs-toggle="tooltip" data-bs-placement="left" title="Görüntüle"
                                             type="button">
                                             <i data-acorn-icon="eye"></i>
-                                        </a>
-                                        <a href="{{ route('organizationAdmin.exam.destroy', $exam->id) }}"
-                                           class="btn  mb-1 btn-sm btn-icon btn-icon-only btn-danger shadow delete-exam-btn"
-                                           data-bs-toggle="tooltip" data-bs-placement="right" data-bs-delay="0"
-                                           title="Sil" type="button">
+                                        </a> <a
+                                            href="{{ route('organizationAdmin.student.exam.downloadPdf', $exam->id) }}"
+                                            class="btn mb-1 btn-sm btn-icon btn-icon-only btn-info shadow"
+                                            data-bs-toggle="tooltip" data-bs-placement="top" title="İndir"
+                                            type="button">
+                                            <i data-acorn-icon="cloud-download"></i>
+                                        </a>@if($exam->batch_exam_id == null) <a
+                                            href="{{ route('organizationAdmin.student.exam.edit', $exam->id) }}"
+                                            class="btn mb-1 btn-sm btn-icon btn-icon-only btn-warning shadow"
+                                            data-bs-toggle="tooltip" data-bs-placement="top" title="Düzenle"
+                                            type="button">
+                                            <i data-acorn-icon="edit"></i>
+                                        </a> <a href="{{ route('organizationAdmin.student.exam.destroy', $exam->id) }}"
+                                                class="btn  mb-1 btn-sm btn-icon btn-icon-only btn-danger shadow delete-exam-btn"
+                                                data-bs-toggle="tooltip" data-bs-placement="right" data-bs-delay="0"
+                                                title="Sil" type="button">
                                             <i data-acorn-icon="bin"></i>
-                                        </a>
+                                        </a>@endif
                                     </td>
                                 </tr>
                             @endforeach
